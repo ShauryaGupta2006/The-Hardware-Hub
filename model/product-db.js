@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/hardwarehub', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
+mongoose.connect('mongodb://localhost:27017/hardwarehub').then(() => {
     console.log('Connected to MongoDB');
 }).catch((err) => {
     console.log(err);
@@ -12,7 +9,7 @@ mongoose.connect('mongodb://localhost:27017/hardwarehub', {
 
 const productSchema = new mongoose.Schema({
     product_name: String,
-    pricing: numeric,
+    pricing: Number,
     Description: String
 });
 
