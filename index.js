@@ -27,13 +27,17 @@ app.get("/createuser",(req,res)=>{
 
 app.post("/create",(req,res)=>{
   
-  let {name,email,phone_number,password} = req.body
+  let {name,phone_number,email,password} = req.body;
 
   bcrypt.genSalt(10,"",function(err,salt){
-    bcrypt.hash(userdb.password,salt,function(err,hash){
+    bcrypt.hash(userdb.password,salt, async function(err,hash){
 
-
-
+      let user = await userdb.create({
+        name,
+        phone_number,
+        email,
+        password : hash
+      })
     })
   })
 
