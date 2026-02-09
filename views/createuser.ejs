@@ -10,7 +10,7 @@
     <div class="main bg-gray-300 min-h-screen w-full">
         <form action="/create" method = "post">
 
-            <input name = 'Name' placeholder = "Name" class="bg-gray-600 rounded-md">
+            <input name = 'name' placeholder = "Name" class="bg-gray-600 rounded-md">
             <input 
                 type="text"
                 name="phone_number"
@@ -22,9 +22,9 @@
                 oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                 class="bg-gray-600 rounded-md">
 
-            <input name = 'Email' placeholder = "Email" class="bg-gray-600 rounded-md" required>
-            <input name = 'Password' placeholder = "Password" class="bg-gray-600 rounded-md" required>
-            <input placeholder = "Create" type="submit" class="bg-blue-600 text-white rounded-md p-2">
+            <input name = 'email' placeholder = "Email" class="bg-gray-600 rounded-md" required>
+            <input name = 'password' placeholder = "Password" class="bg-gray-600 rounded-md" required>
+            <input value = "Create" type="submit" class="bg-blue-600 text-white rounded-md p-1">
         </form>
 
 
