@@ -3,6 +3,8 @@ const app = express();
 const port = 3000;
 const bcrypt = require('bcrypt')
 const path = require('path');
+const jwt = require("jsonwebtoken")
+const cookieParser = require("cookie-parser")
 
 const userdb =  require('./model/user-db') 
 
@@ -41,8 +43,41 @@ app.post("/create",(req,res)=>{
     })
   })
   res.redirect("/")
+})
 
+
+app.get("/login",(req,res)=>{
+  res.render("login")
+})
+
+app.post("/loginn",async(req,res)=>{
+
+  let user = await userdb.findOne(({email: req.body.email}))
+
+  if(!user) return res.send("No User")
   
+  
+  
+  bcrypt.compare(req.body.password,user.password,function(err,result){
+    if(result){
+      let token = jwt.sign({email : user.email},"secreettt")
+
+      res.cookie("token",token)
+      res.redirect('/')
+
+    }
+    else{
+      res.send("Something went wrong!!!!")
+    }
+  })
+  
+
+})
+
+app.post('/logout',(req,res)=>{
+  res.cookie("token","")
+  res.redirect("/")
+
 })
 
 app.listen(port, () => {
