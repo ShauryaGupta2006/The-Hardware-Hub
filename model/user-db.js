@@ -20,6 +20,11 @@ const userSchema = new mongoose.Schema({
         unique: true,
         required: true,
         match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    }, 
+    role:{
+        type: String,
+        enum: ["User "|| "admin"],
+        default: "user"
     },
     password: String
 });

@@ -5,6 +5,11 @@ const bcrypt = require('bcrypt')
 const path = require('path');
 const jwt = require("jsonwebtoken")
 const cookieParser = require("cookie-parser")
+const dotenv = require("dotenv")
+
+dotenv.config({
+  path:'./.env'
+})
 
 const userdb =  require('./model/user-db') 
 
@@ -12,6 +17,7 @@ const userdb =  require('./model/user-db')
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '/public')));
+app.use(cookieParser())
 
 app.set('view engine', 'ejs');
 // app.set('views', path.join(__dirname, 'views'));
@@ -50,7 +56,7 @@ app.get("/login",(req,res)=>{
   res.render("login")
 })
 
-app.post("/loginn",async(req,res)=>{
+app.post("/login",async(req,res)=>{
 
   let user = await userdb.findOne(({email: req.body.email}))
 
@@ -60,7 +66,7 @@ app.post("/loginn",async(req,res)=>{
   
   bcrypt.compare(req.body.password,user.password,function(err,result){
     if(result){
-      let token = jwt.sign({email : user.email},"secreettt")
+      let token = jwt.sign({email : user.email, role : user.role},"secreettt")
 
       res.cookie("token",token)
       res.redirect('/')
@@ -72,14 +78,56 @@ app.post("/loginn",async(req,res)=>{
   })
   
 
+
+})
+app.get("/profile",isLogin,(req,res)=>{
+  res.send("hi")
 })
 
+
+// Middleware for the login
+
+function isLogin(req,res,next){
+  if(req.cookies.token === "") res.send("Please Login")
+
+  else{
+    // check karna padega jo cookie hai vo konsi hai exist karti hai ki nhi
+
+    const decode = jwt.verify(req.cookies.token,"secreettt")
+
+    req.user = decode;
+  }
+
+  next();
+}
+
+// Log Out Route
 app.post('/logout',(req,res)=>{
   res.cookie("token","")
   res.redirect("/")
 
 })
 
-app.listen(port, () => {
+app.get("/profile",islogin,(req,res)=>{
+
+  res.render("profile")
+
+
+  
+})
+
+function islogin(req,res,next){
+  if(req.cookies.token==="") res.send("Please Login")
+
+  else{
+    let data = jwt.verify(req.cookies.token,"secreettt")
+    req.user = data
+  }
+  next()
+}
+
+
+
+app.listen(process.env.PORT, () => {
   console.log(`Server initiated`);
 });
