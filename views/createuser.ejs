@@ -3,32 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CreateUser</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>new User</title>
+    <script src = "https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <div class="main bg-gray-300 min-h-screen w-full">
-        <form action="/create" method = "post">
-
-            <input name = 'name' placeholder = "Name" class="text-white bg-gray-600 rounded-md">
-            <input 
-                type="text"
-                name="phone_number"
-                placeholder="Enter Mobile Number"
-                maxlength="10"
-                inputmode="numeric"
-                pattern="[0-9]{10}"
-                required
-                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                class="bg-gray-600 rounded-md text-white">
-
-            <input name = 'email' placeholder = "Email" class="text-white bg-gray-600 rounded-md" required>
-            <input name = 'password' placeholder = "Password" class="text-white bg-gray-600 rounded-md" required>
-            <input value = "Create" type="submit" class="bg-blue-600 text-white rounded-md p-1">
-        </form>
-
-       
     
-    
+    <div class="main bg-zinc-900 min-h-screen w-full text-white">
+        <div class="form p-64">
+            <form action="/create" method = "post">
+                <input name = "name" placeholder = "Name" class = "bg-zinc-700 rounded-md w-full h-7">
+                <input name="username" placeholder="Username" class = "bg-zinc-700 rounded-md w-full h-7 mt-4" > 
+                <input name = "email" placeholder = "Email" class = "bg-zinc-700 rounded-md w-full mt-4 h-7">
+                <input name = "password" placeholder = "Password" type = "password" class = "bg-zinc-700 rounded-md w-full mt-4 h-7">
+                <input type="submit" value="submit" class="bg-blue-600 text-white rounded-md mt-5 h-7 w-28">
+            </form>
+        </div>
+
+    </div>
 </body>
 </html>

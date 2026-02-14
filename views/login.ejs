@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log In</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>login</title>
+    <script src = "https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <div class="main bg-gray-300 min-h-screen w-full">
-        <form action="/login" method = "post">
-
-            <input name = 'email' placeholder = "Email" class="bg-gray-600 rounded-md text-white" required>
-            <input name = 'password' placeholder = "Password" class="bg-gray-600 rounded-md text-white" >
-            <input value = "Log In" type="submit" class="bg-blue-600 text-white rounded-md p-1">
-        </form>
-
+    
+    <div class="main bg-zinc-900 min-h-screen w-full">
+        <div class="form p-64">
+            <form action="/login" method = "post">
+                 
+                <input name = "email" placeholder = "Email" class = "bg-zinc-700 rounded-md w-full mt-4 h-7">
+                <input name = "password" placeholder = "Password" type = "password" class = "bg-zinc-700 rounded-md w-full mt-4 h-7">
+                <input type="submit" value="submit" class="bg-blue-600 text-white rounded-md mt-5 h-7 w-28">
+            </form>
+        </div>
 
     </div>
-    
 </body>
 </html>
