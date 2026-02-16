@@ -30,11 +30,11 @@ app.use("/product", productRouter)
 
 
 app.get("/", (req, res) => {
-    res.render("index")
+    res.render("index",{token:req.cookies.token})
 })
 
 app.get("/products", (req, res) => {
-    res.render("products")
+    res.render("products",{token:req.cookies.token})
 })
 
 
@@ -94,7 +94,7 @@ app.post("/login",async(req,res)=>{
 })
 
 
-app.post("/logout",(req,res)=>{
+app.get("/logout",(req,res)=>{
     res.cookie("token","")
     res.redirect("/")
 })

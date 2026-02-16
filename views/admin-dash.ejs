@@ -1,25 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="main bg-zinc-900 w-full min-h-screen text-white">
 
-        <h1>Admin Dashboard</h1>
-        
+<body class="bg-zinc-950 text-white min-h-screen">
 
-        <a href="/products">All Products</a>
-        <br>
-        <a href="/admin/listproduct">Add Product</a>
+  <!-- Background Glow -->
+  <div class="absolute inset-0 -z-10">
+    <div class="absolute top-10 left-10 w-80 h-80 bg-blue-600/25 blur-3xl rounded-full"></div>
+    <div class="absolute bottom-10 right-10 w-80 h-80 bg-purple-600/25 blur-3xl rounded-full"></div>
+  </div>
 
-        <
+  <div class="min-h-screen flex">
 
-    </diiv>
-    
-    
+    <!-- Sidebar -->
+    <aside class="w-72 hidden md:flex flex-col border-r border-zinc-800 bg-zinc-950/60 backdrop-blur-xl p-6">
+
+      <!-- Logo -->
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-blue-600 flex items-center justify-center font-bold text-lg shadow-lg shadow-blue-600/30">
+          H
+        </div>
+        <div>
+          <h2 class="text-lg font-bold tracking-tight">Hardware Hub</h2>
+          <p class="text-xs text-zinc-400">Admin Panel</p>
+        </div>
+      </div>
+
+      <!-- Menu -->
+      <div class="mt-10 space-y-3 text-sm">
+
+        <a href="/admin/dashboard"
+          class="flex items-center justify-between px-4 py-3 rounded-xl bg-blue-600/15 border border-blue-600/30 text-blue-400">
+          <span>📊 Dashboard</span>
+          <span class="text-xs text-zinc-400">Home</span>
+        </a>
+
+        <a href="/products"
+          class="flex items-center justify-between px-4 py-3 rounded-xl bg-zinc-900/50 border border-zinc-800 hover:border-blue-600 transition">
+          <span>🛒 All Products</span>
+          <span class="text-xs text-zinc-400">View</span>
+        </a>
+
+        <a href="/admin/listproduct"
+          class="flex items-center justify-between px-4 py-3 rounded-xl bg-zinc-900/50 border border-zinc-800 hover:border-blue-600 transition">
+          <span>➕ Add Product</span>
+          <span class="text-xs text-zinc-400">New</span>
+        </a>
+
+        <a href="/admin/orders"
+          class="flex items-center justify-between px-4 py-3 rounded-xl bg-zinc-900/50 border border-zinc-800 hover:border-blue-600 transition">
+          <span>📦 Orders</span>
+          <span class="text-xs text-zinc-400">Track</span>
+        </a>
+
+        <a href="/admin/users"
+          class="flex items-center justify-between px-4 py-3 rounded-xl bg-zinc-900/50 border border-zinc-800 hover:border-blue-600 transition">
+          <span>👤 Users</span>
+          <span class="text-xs text-zinc-400">Manage</span>
+        </a>
+
+      </div>
+
+      <!-- Bottom -->
+      <div class="mt-auto pt-6 border-t border-zinc-800">
+        <a href="/logout"
+          class="w-full flex items-center justify-center px-4 py-3 rounded-xl bg-red-600/15 border border-red-600/30 text-red-400 hover:bg-red-600/20 transition">
+          🚪 Logout
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+
+      <!-- Top Bar -->
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+
+        <div>
+          <h1 class="text-3xl font-bold tracking-tight">Admin Dashboard 📊</h1>
+          <p class="text-zinc-400 mt-2 text-sm">
+            Manage your products, orders, and users from here.
+          </p>
+        </div>
+
+        <!-- Quick Buttons -->
+        <div class="flex gap-3">
+          <a href="/products"
+            class="px-5 py-3 rounded-xl bg-zinc-900/60 border border-zinc-800 hover:border-blue-600 transition font-medium">
+            View Products
+          </a>
+          <a href="/admin/listproduct"
+            class="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 transition font-semibold shadow-lg shadow-blue-600/30">
+            Add Product ➕
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Stats -->
+      <section class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 shadow-xl">
+          <p class="text-zinc-400 text-sm">Total Products</p>
+          <h2 class="text-3xl font-bold mt-2">128</h2>
+          <p class="text-xs text-green-400 mt-3">+12 added this week</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 shadow-xl">
+          <p class="text-zinc-400 text-sm">Orders</p>
+          <h2 class="text-3xl font-bold mt-2">54</h2>
+          <p class="text-xs text-blue-400 mt-3">8 pending</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 shadow-xl">
+          <p class="text-zinc-400 text-sm">Users</p>
+          <h2 class="text-3xl font-bold mt-2">320</h2>
+          <p class="text-xs text-purple-400 mt-3">+24 new users</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 shadow-xl">
+          <p class="text-zinc-400 text-sm">Revenue</p>
+          <h2 class="text-3xl font-bold mt-2">₹78,500</h2>
+          <p class="text-xs text-green-400 mt-3">+18% growth</p>
+        </div>
+
+      </section>
+
+      <!-- Recent Section -->
+      <section class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Recent Products -->
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 shadow-xl">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xl font-bold">Recent Products 🛒</h3>
+            <a href="/products" class="text-sm text-blue-500 hover:text-blue-400 transition">
+              View all →
+            </a>
+          </div>
+
+          <div class="mt-6 space-y-4">
+
+            <div class="flex items-center justify-between p-4 rounded-xl bg-zinc-950 border border-zinc-800">
+              <div>
+                <h4 class="font-semibold">Bosch Drill Machine</h4>
+                <p class="text-zinc-400 text-sm">₹4,999 • Qty: 12</p>
+              </div>
+              <a href="/products/1" class="text-blue-500 hover:text-blue-400 text-sm font-medium">
+                View
+              </a>
+            </div>
+
+            <div class="flex items-center justify-between p-4 rounded-xl bg-zinc-950 border border-zinc-800">
+              <div>
+                <h4 class="font-semibold">Bolt Pack (Steel)</h4>
+                <p class="text-zinc-400 text-sm">₹399 • Qty: 100</p>
+              </div>
+              <a href="/products/2" class="text-blue-500 hover:text-blue-400 text-sm font-medium">
+                View
+              </a>
+            </div>
+
+            <div class="flex items-center justify-between p-4 rounded-xl bg-zinc-950 border border-zinc-800">
+              <div>
+                <h4 class="font-semibold">Tool Kit Set</h4>
+                <p class="text-zinc-400 text-sm">₹1,799 • Qty: 25</p>
+              </div>
+              <a href="/products/3" class="text-blue-500 hover:text-blue-400 text-sm font-medium">
+                View
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 shadow-xl">
+          <h3 class="text-xl font-bold">Quick Actions ⚡</h3>
+          <p class="text-zinc-400 text-sm mt-2">
+            Manage your store faster.
+          </p>
+
+          <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+            <a href="/admin/listproduct"
+              class="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-blue-600 transition">
+              <h4 class="font-semibold">➕ Add Product</h4>
+              <p class="text-zinc-400 text-sm mt-1">List a new hardware item</p>
+            </a>
+
+            <a href="/products"
+              class="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-blue-600 transition">
+              <h4 class="font-semibold">🛒 View Products</h4>
+              <p class="text-zinc-400 text-sm mt-1">See all listed products</p>
+            </a>
+
+            <a href="/admin/orders"
+              class="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-blue-600 transition">
+              <h4 class="font-semibold">📦 Orders</h4>
+              <p class="text-zinc-400 text-sm mt-1">Track customer orders</p>
+            </a>
+
+            <a href="/admin/users"
+              class="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-blue-600 transition">
+              <h4 class="font-semibold">👤 Users</h4>
+              <p class="text-zinc-400 text-sm mt-1">Manage registered users</p>
+            </a>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- Mobile Sidebar Buttons -->
+      <section class="mt-10 md:hidden grid grid-cols-2 gap-4">
+        <a href="/products" class="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800 text-center">
+          🛒 Products
+        </a>
+        <a href="/admin/listproduct" class="p-4 rounded-xl bg-blue-600 text-center font-semibold">
+          ➕ Add
+        </a>
+      </section>
+
+    </main>
+
+  </div>
+
 </body>
 </html>

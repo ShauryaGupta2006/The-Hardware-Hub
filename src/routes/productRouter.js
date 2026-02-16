@@ -1,24 +1,13 @@
 const express = require("express")
 const router = express.Router()
 
+router.use(express.json())
+router.use(express.urlencoded({extended:true}))
 
 router.get("/",(req,res)=>{
-    res.send("product")
+    res.render("products")
 })
 
-router.post("/create",(req,res)=>{
 
-    let {name,price,description,image} = req.body;
-
-    let product = productdb.create({
-        name,
-        price,
-        description,
-        image
-    })
-
-    
-    res.send("product created")
-})
 
 module.exports = router;
