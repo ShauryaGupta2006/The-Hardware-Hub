@@ -1,17 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>List new Product</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body>
-    <form action="/product/create" method="post">
-        <input type="text" name="name" placeholder="Product Name">
-        <input type="text" name="price" placeholder="Product Price">
-        <input type="text" name="description" placeholder="Product Description">
-        <input type="text" name="image" placeholder="Product Image">
-        <button type="submit">Add Product</button>
-    </form>
+
+    <div class="maiin bg-zinc-900 min-h-screen text-white w-full">
+
+        <h1 class=" text-3xl ">List New Product</h1>
+        <div class="list p-40">
+
+            <form action="/product/create" method="post">
+                <input type="text" name="name" placeholder="Product" class="bg-zinc-700 text-white rounded-md w-full mt-4">
+                <br>
+                <input type="text" name="price" placeholder="Price" class="bg-zinc-700 text-white rounded-md w-full mt-4">
+                <br>
+                <input type="text" name="brand" placeholder="Brand" class="bg-zinc-700 text-white rounded-md w-full mt-4">
+                <br>
+                <input type="text" name="quantity" placeholder="Quantity" class="bg-zinc-700 text-white rounded-md w-full mt-4">
+                <br>
+                <input type="file" name="image" placeholder="Image" class="bg-zinc-700 text-white rounded-md w-full mt-4">
+                <br>
+                <textarea name="description" placeholder="Description" class="bg-zinc-700 text-white rounded-md w-full mt-4 resize-none h-16"></textarea>
+                <br>
+                <input type="submit" value="Add Product" class="bg-blue-600 text-white rounded-md mt-4">
+            </form>
+        </div>
+    </div>
+    
 </body>
+
 </html>
