@@ -30,6 +30,7 @@ router.post("/listproduct",upload.single("productimage"),async(req,res)=>{
         name,
         price,
         brand,
+        typee : req.body.type,
         description,
         image: req.file.filename
     })

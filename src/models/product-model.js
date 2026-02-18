@@ -6,6 +6,10 @@ const productSchema = mongoose.Schema({
     brand: String,
     price: Number,
     quantity: Number,
+    typee: {
+        type: String,
+        default : "basic"
+    },
     image: String,
     description: String,
     

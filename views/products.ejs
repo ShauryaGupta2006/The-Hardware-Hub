@@ -96,164 +96,47 @@
 
     </div>
 
-    <!-- Products Grid -->
+    <!-- ✅ Products Grid (ONLY ONE GRID) -->
     <section class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-      <!-- Product Card -->
-      <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-blue-600 transition shadow-xl">
-        <div class="h-44 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-zinc-500">
-          Product Image
+      <% products.forEach(function(product){ %>
+
+        <!-- Product Card -->
+        <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-blue-600 transition shadow-xl">
+
+          <!-- Image -->
+          <div class="h-44 rounded-xl bg-zinc-950 border border-zinc-800 overflow-hidden flex items-center justify-center">
+            <img class="w-full h-full object-cover" src="<%= product.image %>" alt="<%= product.name %>">
+          </div>
+
+          <!-- Title + Category -->
+          <div class="mt-5 flex items-center justify-between">
+            <h3 class="font-semibold text-lg"><%= product.name %></h3>
+
+            <span class="text-xs px-3 py-1 rounded-full bg-blue-600/15 border border-blue-600/30 text-blue-400">
+              <%= product.category || "General" %>
+            </span>
+          </div>
+
+          <!-- Description -->
+          <p class="text-zinc-400 text-sm mt-2">
+            <%= product.description %>
+          </p>
+
+          <!-- Price + Button -->
+          <div class="flex items-center justify-between mt-5">
+            <p class="text-xl font-bold">₹<%= product.price %></p>
+
+            <!-- View Product -->
+            <a href="/products/<%= product._id %>"
+              class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition text-sm font-semibold">
+              View
+            </a>
+          </div>
+
         </div>
 
-        <div class="mt-5 flex items-center justify-between">
-          <h3 class="font-semibold text-lg">Bosch Drill Machine</h3>
-          <span class="text-xs px-3 py-1 rounded-full bg-blue-600/15 border border-blue-600/30 text-blue-400">
-            Drill
-          </span>
-        </div>
-
-        <p class="text-zinc-400 text-sm mt-2">
-          High power heavy-duty drilling machine.
-        </p>
-
-        <div class="flex items-center justify-between mt-5">
-          <p class="text-xl font-bold">₹4,999</p>
-          <a href="/products/1"
-            class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition text-sm font-semibold">
-            View
-          </a>
-        </div>
-      </div>
-
-      <!-- Product Card -->
-      <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-blue-600 transition shadow-xl">
-        <div class="h-44 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-zinc-500">
-          Product Image
-        </div>
-
-        <div class="mt-5 flex items-center justify-between">
-          <h3 class="font-semibold text-lg">Industrial Bolt Pack</h3>
-          <span class="text-xs px-3 py-1 rounded-full bg-purple-600/15 border border-purple-600/30 text-purple-400">
-            Bolts
-          </span>
-        </div>
-
-        <p class="text-zinc-400 text-sm mt-2">
-          Rust-proof steel bolts and nuts set.
-        </p>
-
-        <div class="flex items-center justify-between mt-5">
-          <p class="text-xl font-bold">₹399</p>
-          <a href="/products/2"
-            class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition text-sm font-semibold">
-            View
-          </a>
-        </div>
-      </div>
-
-      <!-- Product Card -->
-      <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-blue-600 transition shadow-xl">
-        <div class="h-44 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-zinc-500">
-          Product Image
-        </div>
-
-        <div class="mt-5 flex items-center justify-between">
-          <h3 class="font-semibold text-lg">Complete Tool Kit</h3>
-          <span class="text-xs px-3 py-1 rounded-full bg-green-600/15 border border-green-600/30 text-green-400">
-            Kit
-          </span>
-        </div>
-
-        <p class="text-zinc-400 text-sm mt-2">
-          Everything you need in one premium box.
-        </p>
-
-        <div class="flex items-center justify-between mt-5">
-          <p class="text-xl font-bold">₹1,799</p>
-          <a href="/products/3"
-            class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition text-sm font-semibold">
-            View
-          </a>
-        </div>
-      </div>
-
-      <!-- Product Card -->
-      <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-blue-600 transition shadow-xl">
-        <div class="h-44 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-zinc-500">
-          Product Image
-        </div>
-
-        <div class="mt-5 flex items-center justify-between">
-          <h3 class="font-semibold text-lg">Safety Gloves</h3>
-          <span class="text-xs px-3 py-1 rounded-full bg-red-600/15 border border-red-600/30 text-red-400">
-            Safety
-          </span>
-        </div>
-
-        <p class="text-zinc-400 text-sm mt-2">
-          Heavy duty gloves for protection.
-        </p>
-
-        <div class="flex items-center justify-between mt-5">
-          <p class="text-xl font-bold">₹249</p>
-          <a href="/products/4"
-            class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition text-sm font-semibold">
-            View
-          </a>
-        </div>
-      </div>
-
-      <!-- Product Card -->
-      <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-blue-600 transition shadow-xl">
-        <div class="h-44 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-zinc-500">
-          Product Image
-        </div>
-
-        <div class="mt-5 flex items-center justify-between">
-          <h3 class="font-semibold text-lg">Hammer (Steel)</h3>
-          <span class="text-xs px-3 py-1 rounded-full bg-yellow-600/15 border border-yellow-600/30 text-yellow-400">
-            Tools
-          </span>
-        </div>
-
-        <p class="text-zinc-400 text-sm mt-2">
-          Strong steel hammer with grip handle.
-        </p>
-
-        <div class="flex items-center justify-between mt-5">
-          <p class="text-xl font-bold">₹299</p>
-          <a href="/products/5"
-            class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition text-sm font-semibold">
-            View
-          </a>
-        </div>
-      </div>
-
-      <!-- Product Card -->
-      <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-blue-600 transition shadow-xl">
-        <div class="h-44 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-zinc-500">
-          Product Image
-        </div>
-
-        <div class="mt-5 flex items-center justify-between">
-          <h3 class="font-semibold text-lg">Extension Wire</h3>
-          <span class="text-xs px-3 py-1 rounded-full bg-cyan-600/15 border border-cyan-600/30 text-cyan-400">
-            Electrical
-          </span>
-        </div>
-
-        <p class="text-zinc-400 text-sm mt-2">
-          Heavy duty extension wire for workshops.
-        </p>
-
-        <div class="flex items-center justify-between mt-5">
-          <p class="text-xl font-bold">₹599</p>
-          <a href="/products/6"
-            class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition text-sm font-semibold">
-            View
-          </a>
-        </div>
-      </div>
+      <% }) %>
 
     </section>
 
