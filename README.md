@@ -1,16 +1,3 @@
-
-
-Admin panel:
-        1. total product quantity
-        2. total users
-            
-
-
-
-
-
-
-
 # The Hardware Hub 🛠️🛒
 
 The Hardware Hub is a **full-fledged website** built using **Node.js, Express.js, MongoDB, Mongoose, EJS**, and static assets.  
