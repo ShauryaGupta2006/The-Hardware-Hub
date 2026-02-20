@@ -9,7 +9,7 @@
 
 <body class="bg-zinc-950 text-white min-h-screen">
 
-
+  <!-- Background Glow -->
   <div class="absolute inset-0 -z-10">
     <div class="absolute top-10 left-10 w-80 h-80 bg-blue-600/25 blur-3xl rounded-full"></div>
     <div class="absolute bottom-10 right-10 w-80 h-80 bg-purple-600/25 blur-3xl rounded-full"></div>
@@ -18,6 +18,7 @@
   <!-- Navbar -->
   <nav class="w-full px-8 py-5 flex items-center justify-between border-b border-zinc-800 bg-zinc-950/60 backdrop-blur-xl sticky top-0 z-50">
 
+    <!-- Logo -->
     <div class="flex items-center gap-3">
       <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-bold text-lg shadow-lg shadow-blue-600/30">
         H
@@ -25,39 +26,59 @@
       <h1 class="text-xl font-bold tracking-tight">The Hardware Hub</h1>
     </div>
 
+    <!-- Links -->
     <div class="hidden md:flex items-center gap-8 text-sm text-zinc-300">
       <a href="/" class="hover:text-white transition">Home</a>
       <a href="/products" class="hover:text-white transition">Products</a>
       <a href="/categories" class="hover:text-white transition">Categories</a>
       <a href="/contact" class="hover:text-white transition">Contact</a>
     </div>
-    <% if(token === ""){%>
 
-        <div class="flex items-center gap-3">
-            <a href="/login" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition text-sm font-medium">
-                Login
-            </a>
-            <a href="/signup" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition text-sm font-semibold shadow-lg shadow-blue-600/30">
-                Sign Up
-            </a>
-        </div>
+    <!-- Auth / Cart Section -->
+    <% if(!token){ %>
 
+      <div class="flex items-center gap-3">
+        <a href="/login" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition text-sm font-medium">
+          Login
+        </a>
+        <a href="/signup" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition text-sm font-semibold shadow-lg shadow-blue-600/30">
+          Sign Up
+        </a>
+      </div>
 
+    <% } else { %>
 
-    <%}else{%> 
-        <div class="flex items-center gap-3">
-            <a href="/logout" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition text-sm font-medium">
-                Logout
-            </a>
-        </div>
-    <%}%>
-    
+      <div class="flex items-center gap-4">
+
+        <!-- Cart Button -->
+        <a href="/cart" 
+           class="relative px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition text-sm font-medium flex items-center gap-2">
+
+          🛒 Cart
+
+          <% if (user && user.cart && user.cart.length > 0) { %>
+            <span class="absolute -top-2 -right-2 bg-blue-600 text-xs px-2 py-0.5 rounded-full">
+              <%= user.cart.length %>
+            </span>
+          <% } %>
+
+        </a>
+
+        <!-- Logout -->
+        <a href="/logout" 
+           class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition text-sm font-medium">
+          Logout
+        </a>
+
+      </div>
+
+    <% } %>
+
   </nav>
 
   <!-- Hero Section -->
   <section class="max-w-6xl mx-auto px-8 py-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
-    <!-- Left -->
     <div>
       <p class="text-sm text-blue-400 font-medium mb-3">
         ⚡ Premium Hardware • Trusted Tools • Fast Delivery
@@ -73,172 +94,35 @@
         Built for real work — not cheap plastic.
       </p>
 
-      <!-- Buttons -->
-      <div class="mt-8 flex flex-col sm:flex-row gap-4">
+      <div class="mt-8 flex gap-4">
         <a href="/products"
-          class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 transition font-semibold shadow-lg shadow-blue-600/30 text-center">
+          class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 transition font-semibold shadow-lg shadow-blue-600/30">
           Browse Products 🔥
         </a>
 
         <a href="/product/create"
-          class="px-6 py-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition font-semibold text-center">
+          class="px-6 py-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition font-semibold">
           List a Product ➕
         </a>
       </div>
-
-      <!-- Stats -->
-      <div class="mt-10 grid grid-cols-3 gap-6">
-        <div class="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800">
-          <h3 class="text-2xl font-bold">500+</h3>
-          <p class="text-zinc-400 text-sm mt-1">Products</p>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800">
-          <h3 class="text-2xl font-bold">100+</h3>
-          <p class="text-zinc-400 text-sm mt-1">Brands</p>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800">
-          <h3 class="text-2xl font-bold">24/7</h3>
-          <p class="text-zinc-400 text-sm mt-1">Support</p>
-        </div>
-      </div>
     </div>
 
-    <!-- Right -->
+    <!-- Right Card -->
     <div class="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-8 shadow-2xl">
-
       <h3 class="text-xl font-bold">Top Categories 🧰</h3>
       <p class="text-zinc-400 text-sm mt-2">
         Explore by category to find tools faster.
       </p>
-
-      <div class="mt-6 grid grid-cols-2 gap-4">
-
-        <div class="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-blue-600 transition cursor-pointer">
-          <h4 class="font-semibold">Drill Machines</h4>
-          <p class="text-zinc-400 text-sm mt-1">Bosch, Dewalt, Makita</p>
-        </div>
-
-        <div class="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-blue-600 transition cursor-pointer">
-          <h4 class="font-semibold">Bolts & Nuts</h4>
-          <p class="text-zinc-400 text-sm mt-1">Steel, Iron, Brass</p>
-        </div>
-
-        <div class="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-blue-600 transition cursor-pointer">
-          <h4 class="font-semibold">Tool Kits</h4>
-          <p class="text-zinc-400 text-sm mt-1">Complete repair sets</p>
-        </div>
-
-        <div class="p-5 rounded-2xl bg-zinc-950 border border-zinc-800 hover:border-blue-600 transition cursor-pointer">
-          <h4 class="font-semibold">Safety Gear</h4>
-          <p class="text-zinc-400 text-sm mt-1">Gloves, helmets, masks</p>
-        </div>
-
-      </div>
-
-      <!-- Search Bar -->
-      <div class="mt-8">
-        <label class="text-sm text-zinc-300">Quick Search</label>
-        <div class="mt-2 flex gap-3">
-          <input
-            placeholder="Search drill, bolt, hammer..."
-            class="w-full px-4 py-3 rounded-xl bg-zinc-800 text-white placeholder-zinc-500 
-                   border border-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-600 transition"
-          />
-          <button
-            class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 transition font-semibold shadow-lg shadow-blue-600/30">
-            Search
-          </button>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Featured Products -->
-  <section class="max-w-6xl mx-auto px-8 pb-20">
-
-    <div class="flex items-end justify-between">
-      <div>
-        <h2 class="text-3xl font-bold tracking-tight">Featured Products 🔥</h2>
-        <p class="text-zinc-400 text-sm mt-2">
-          Most loved by customers and builders.
-        </p>
-      </div>
-
-      <a href="/products" class="text-blue-500 hover:text-blue-400 font-medium text-sm">
-        View all →
-      </a>
     </div>
 
-    <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-      <!-- Product Card -->
-      <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-blue-600 transition shadow-xl">
-        <div class="h-44 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-zinc-500">
-          Product Image
-        </div>
-        <h3 class="mt-5 font-semibold text-lg">Bosch Drill Machine</h3>
-        <p class="text-zinc-400 text-sm mt-1">High power, heavy-duty drilling.</p>
-
-        <div class="flex items-center justify-between mt-5">
-          <p class="text-xl font-bold">₹4,999</p>
-          <a href="/products/1" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition text-sm font-semibold">
-            View
-          </a>
-        </div>
-      </div>
-
-      <!-- Product Card -->
-      <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-blue-600 transition shadow-xl">
-        <div class="h-44 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-zinc-500">
-          Product Image
-        </div>
-        <h3 class="mt-5 font-semibold text-lg">Industrial Bolt Pack</h3>
-        <p class="text-zinc-400 text-sm mt-1">Rust-proof, premium steel bolts.</p>
-
-        <div class="flex items-center justify-between mt-5">
-          <p class="text-xl font-bold">₹399</p>
-          <a href="/products/2" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition text-sm font-semibold">
-            View
-          </a>
-        </div>
-      </div>
-
-      <!-- Product Card -->
-      <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-blue-600 transition shadow-xl">
-        <div class="h-44 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-center text-zinc-500">
-          Product Image
-        </div>
-        <h3 class="mt-5 font-semibold text-lg">Complete Tool Kit</h3>
-        <p class="text-zinc-400 text-sm mt-1">Everything you need in one box.</p>
-
-        <div class="flex items-center justify-between mt-5">
-          <p class="text-xl font-bold">₹1,799</p>
-          <a href="/products/3" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition text-sm font-semibold">
-            View
-          </a>
-        </div>
-      </div>
-
-    </div>
   </section>
 
   <!-- Footer -->
   <footer class="border-t border-zinc-800 bg-zinc-950/70 backdrop-blur-xl">
-    <div class="max-w-6xl mx-auto px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
-
+    <div class="max-w-6xl mx-auto px-8 py-10 flex justify-between">
       <p class="text-zinc-400 text-sm">
         © 2026 The Hardware Hub. Built for builders 🔧
       </p>
-
-      <div class="flex gap-6 text-sm text-zinc-400">
-        <a href="/privacy" class="hover:text-white transition">Privacy</a>
-        <a href="/terms" class="hover:text-white transition">Terms</a>
-        <a href="/contact" class="hover:text-white transition">Support</a>
-      </div>
-
     </div>
   </footer>
 

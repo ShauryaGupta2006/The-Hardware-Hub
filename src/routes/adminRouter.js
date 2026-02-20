@@ -24,12 +24,13 @@ router.get("/listproduct",isAdmin,upload.single("productimage"),(req,res)=>{
 
 router.post("/listproduct",upload.single("productimage"),async(req,res)=>{
 
-    let {name,price,brand,description} = req.body;
+    let {name,price,brand,description,quantity} = req.body;
 
     let product = productdb.create({
         name,
         price,
         brand,
+        quantity,
         typee : req.body.type,
         description,
         image: req.file.filename

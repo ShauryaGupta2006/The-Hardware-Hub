@@ -7,10 +7,11 @@ const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
 const path = require('path')
 const db = require("./src/confiig/mongodb-connect")
-
+const productdb = require("./src/models/product-model")
 const userRouter = require("./src/routes/userRouter")
 const adminRouter = require("./src/routes/adminRouter")
 const productRouter = require("./src/routes/productRouter")
+const userid = require("./src/middlewares/userid")
 
 dotenv.config({ path: '/Users/shaurya/Desktop/permits/projects/The-Hardware-hub-Project/.env' })
 
@@ -25,17 +26,17 @@ app.use(cookieParser())
 
 app.use("/user", userRouter)
 app.use("/admin", adminRouter)
-app.use("/product", productRouter)
+app.use("/products", productRouter)
 
 
 
 app.get("/", (req, res) => {
-    res.render("index",{token:req.cookies.token})
+    let data = jwt.verify(req.cookies.token,"shhh")
+    const user = userdb.findById(data.id)
+    res.render("index",{token:req.cookies.token,user})
 })
 
-app.get("/products", (req, res) => {
-    res.render("products",{token:req.cookies.token})
-})
+
 
 
 
@@ -57,11 +58,52 @@ app.post("/signup", async (req, res) => {
             })
         })
     })
-    let token = jwt.sign({ email: req.body.email }, "shhh")
+    let token = jwt.sign({ id: user._id,email: req.body.email }, "shhh")
     res.cookie("token", token)
 
     res.redirect("/")
 })
+
+// Cart Route
+
+
+app.get("/cart",async(req,res)=>{
+    let data = jwt.verify(req.cookies.token,"shhh")
+    // req.user = data
+    const user = await userdb.findById(data.id).populate("cart")
+
+    if(!user){
+        res.send("Sorry Their is no such user")
+    }
+
+    else{
+
+        res.render("cart",{user})
+    }
+
+    console.log(data)
+    // res.render("cart",{user})
+})
+
+
+
+
+
+
+
+app.post("/removeitem/:productid",async(req,res)=>{
+
+
+    let data1 = jwt.verify(req.cookies.token,"shhh")
+
+    const user = await userdb.findById(data1.id)
+
+    let data = await userdb.findByIdAndUpdate(user._id,{ $pull: { cart: req.params.productid } });
+    req.redirect('/cart')
+})
+
+
+
 
 
 
@@ -70,6 +112,7 @@ app.post("/signup", async (req, res) => {
 app.get("/login",(req,res)=>{
     res.render('login')
 })
+
 
 app.post("/login",async(req,res)=>{
 
@@ -85,7 +128,7 @@ app.post("/login",async(req,res)=>{
             if(!result) return res.send("Wrong Passcode")
             if(result){
 
-                let token = jwt.sign({email: req.body.email},"shhh")
+                let token = jwt.sign({id: user._id,email: req.body.email},"shhh")
                 res.cookie("token",token)
                 res.redirect('/')
             }
@@ -102,56 +145,6 @@ app.get("/logout",(req,res)=>{
 
 
 
-
-
-
-
-
-
-// app.get("/",(req,res)=>{
-
-//     res.render("index")
-
-// })
-
-
-
-// // log in
-
-
-
-// app.get("/profile",isLogin,(req,res)=>{
-
-//     res.send("Hello")
-
-// })
-
-
-
-// app.post('/logout',(req,res)=>{
-//     res.cookie("token","")
-//     res.redirect("/")
-// })
-
-
-// function isLogin(req,res,next){
-
-//     if(req.cookies.token === '') res.send("Please Login first")
-
-//     else{
-//         let data = jwt.verify(req.cookies.token,'shhh')
-//         req.user = data
-//         next()
-//     }
-
-//     jwt.verify("")
-
-// }
-
-
-// app.listen(process.env.PORT,()=>{
-//     console.log(`Server Initiated ${process.env.PORT}`)
-// })
 
 app.listen(process.env.PORT, () => {
     console.log(`Server Initiated ${process.env.PORT}`)

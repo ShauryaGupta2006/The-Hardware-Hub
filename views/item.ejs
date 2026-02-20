@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= product.name %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-zinc-950 text-white min-h-screen">
+
+  <!-- Background Glow -->
+  <div class="absolute inset-0 -z-10">
+    <div class="absolute top-20 left-20 w-96 h-96 bg-blue-600/20 blur-3xl rounded-full"></div>
+    <div class="absolute bottom-20 right-20 w-96 h-96 bg-purple-600/20 blur-3xl rounded-full"></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="w-full px-8 py-5 flex items-center justify-between border-b border-zinc-800 bg-zinc-950/60 backdrop-blur-xl sticky top-0 z-50">
+
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-bold text-lg shadow-lg shadow-blue-600/30">
+        H
+      </div>
+      <h1 class="text-xl font-bold tracking-tight">The Hardware Hub</h1>
+    </div>
+
+    <div class="hidden md:flex items-center gap-8 text-sm text-zinc-300">
+      <a href="/" class="hover:text-white transition">Home</a>
+      <a href="/products" class="hover:text-white transition">Products</a>
+      <a href="/contact" class="hover:text-white transition">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-8 py-20">
+
+    <!-- 40 / 60 Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-16 items-start">
+
+      <!-- IMAGE SECTION (40%) -->
+      <div class="lg:col-span-2">
+
+        <div class="rounded-3xl bg-zinc-900/60 border border-zinc-800 p-6 shadow-xl">
+
+          <div class="aspect-square max-h-[400px] mx-auto rounded-2xl overflow-hidden border border-zinc-800 group">
+            <img 
+              class="w-full h-full object-contain transition duration-500 group-hover:scale-105"
+              src="<%= product.image %>" 
+              alt="<%= product.name %>">
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- DETAILS SECTION (60%) -->
+      <div class="lg:col-span-3 flex flex-col">
+
+        <!-- Category Badge -->
+        <span class="text-xs px-4 py-1.5 rounded-full bg-blue-600/15 border border-blue-600/30 text-blue-400 w-fit">
+          <%= product.typee || "General" %>
+        </span>
+
+        <!-- Title -->
+        <h2 class="text-4xl md:text-5xl font-bold mt-6 leading-tight">
+          <%= product.name %>
+        </h2>
+
+        <!-- Divider -->
+        <div class="w-16 h-1 bg-blue-600 rounded-full mt-6"></div>
+
+        <!-- Description -->
+        <p class="text-zinc-400 mt-8 leading-relaxed text-lg max-w-2xl">
+          <%= product.description %>
+        </p>
+
+        <!-- Price Card -->
+        <div class="mt-12 p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex items-center justify-between max-w-xl">
+
+          <div>
+            <p class="text-sm text-zinc-400">Price</p>
+            <p class="text-3xl font-bold mt-1">₹<%= product.price %></p>
+            <p class="text-xs text-zinc-500 mt-1">Inclusive of all taxes</p>
+          </div>
+
+          <div class="text-green-400 text-sm font-medium">
+            <%if(product.quantity > 0){%>
+                In Stock
+            <% }else{ %>
+                Out of Stock
+            <% } %>
+          </div>
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-10 flex flex-col sm:flex-row gap-4 max-w-xl">
+
+            <form action="/products/addtocart/<%= product._id %>" method="POST">
+                <button 
+                type="submit"
+                class="px-8 py-4 rounded-2xl bg-blue-600 hover:bg-blue-500 transition font-semibold shadow-lg shadow-blue-600/30 text-lg">
+                Add to Cart 🛒
+                </button>
+            </form>
+
+          <button class="px-8 py-4 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-blue-600 transition font-medium text-lg">
+            Buy Now
+          </button>
+
+        </div>
+
+        <!-- Back Link -->
+        <a href="/products" class="mt-10 text-blue-400 hover:text-blue-300 transition text-sm">
+          ← Back to Products
+        </a>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</body>
+</html>

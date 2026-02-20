@@ -100,8 +100,6 @@
     <section class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
       <% products.forEach(function(product){ %>
-
-        <!-- Product Card -->
         <div class="p-6 rounded-2xl bg-zinc-900/60 border border-zinc-800 hover:border-blue-600 transition shadow-xl">
 
           <!-- Image -->
@@ -114,20 +112,17 @@
             <h3 class="font-semibold text-lg"><%= product.name %></h3>
 
             <span class="text-xs px-3 py-1 rounded-full bg-blue-600/15 border border-blue-600/30 text-blue-400">
-              <%= product.category || "General" %>
+              <%= product.typee || "General" %>
             </span>
           </div>
 
-          <!-- Description -->
           <p class="text-zinc-400 text-sm mt-2">
             <%= product.description %>
           </p>
 
-          <!-- Price + Button -->
           <div class="flex items-center justify-between mt-5">
             <p class="text-xl font-bold">₹<%= product.price %></p>
 
-            <!-- View Product -->
             <a href="/products/<%= product._id %>"
               class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition text-sm font-semibold">
               View

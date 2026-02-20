@@ -5,7 +5,7 @@ const userdb = require("../models/user-model")
 async function isAdmin(req, res, next) {
 
     let token = req.cookies.token
-    if (!token) return res.send("Please Login first")
+    if (!token) return res.redirect("/login")
 
     else {
         let data = jwt.verify(req.cookies.token, "shhh")
