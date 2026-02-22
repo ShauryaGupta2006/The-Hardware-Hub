@@ -31,9 +31,22 @@ app.use("/products", productRouter)
 
 
 app.get("/", (req, res) => {
-    let data = jwt.verify(req.cookies.token,"shhh")
-    const user = userdb.findById(data.id)
-    res.render("index",{token:req.cookies.token,user})
+    let token = req.cookies.token
+
+    if(!token){
+        res.redirect("/login")
+    }
+
+
+    else{
+        try{
+        let data = jwt.verify(token,"shhh")
+        const user = userdb.findById(data.id)
+        res.render("index",{token:user.token,user})
+        }catch(err){
+            res.redirect("/login")
+        }
+    }
 })
 
 
@@ -93,8 +106,8 @@ app.get("/cart",async(req,res)=>{
 
 app.post("/removeitem/:productid",async(req,res)=>{
 
-
-    let data1 = jwt.verify(req.cookies.token,"shhh")
+    let token = req.cookies.token
+    let data1 = jwt.verify(token,"shhh")
 
     const user = await userdb.findById(data1.id)
 
@@ -118,7 +131,7 @@ app.post("/login",async(req,res)=>{
 
     let user = await userdb.findOne({email : req.body.email})
 
-    if(!user) return res.send("No User exist")
+    if(!user) return res.status(404).send("No User exist")
 
     else{
 

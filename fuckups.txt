@@ -1,0 +1,5 @@
+1. login sign up button showing when loged in
+2. search bar working
+3. admin panel data real time fetching
+4. Products image render
+5. Admin log in in footer
