@@ -17,7 +17,8 @@ dotenv.config({ path: '/Users/shaurya/Desktop/permits/projects/The-Hardware-hub-
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-// app.use(express.static(path.join(__dirname+'/public')))
+app.use("/images", express.static("images"))
+app.use(express.static(path.join(__dirname+'/src/public')))
 app.set('view engine', 'ejs')
 app.use(cookieParser())
 
@@ -30,7 +31,7 @@ app.use("/products", productRouter)
 
 
 
-app.get("/", (req, res) => {
+app.get("/",async (req, res) => {
     let token = req.cookies.token
 
     if(!token){
@@ -41,8 +42,20 @@ app.get("/", (req, res) => {
     else{
         try{
         let data = jwt.verify(token,"shhh")
-        const user = userdb.findById(data.id)
-        res.render("index",{token:user.token,user})
+        const user = await userdb.findById(data.id)
+        const featuredProducts = await productdb
+            .find()
+            .sort({ createdAt: -1 })   // newest first
+            .limit(3);
+
+            
+        res.render("index", {
+            user,
+            cartCount: user?.cart?.length || 0,
+            featuredProducts
+        });
+
+
         }catch(err){
             res.redirect("/login")
         }

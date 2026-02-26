@@ -4,127 +4,134 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Hardware Hub</title>
+
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Barlow', sans-serif; }
+    h1, h2, h3, h4, .display { font-family: 'Barlow Condensed', sans-serif; }
+  </style>
 </head>
 
 <body class="bg-zinc-950 text-white min-h-screen">
 
-  <!-- Background Glow -->
-  <div class="absolute inset-0 -z-10">
-    <div class="absolute top-10 left-10 w-80 h-80 bg-blue-600/25 blur-3xl rounded-full"></div>
-    <div class="absolute bottom-10 right-10 w-80 h-80 bg-purple-600/25 blur-3xl rounded-full"></div>
+<!-- Navbar -->
+<nav class="w-full px-8 py-5 flex items-center justify-between border-b border-zinc-800 bg-zinc-950/60 backdrop-blur-xl sticky top-0 z-50">
+  
+  <div class="flex items-center gap-3">
+    <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-bold text-lg shadow-lg shadow-blue-600/30">
+      H
+    </div>
+    <h1 class="text-xl font-bold tracking-tight display">The Hardware Hub</h1>
   </div>
 
-  <!-- Navbar -->
-  <nav class="w-full px-8 py-5 flex items-center justify-between border-b border-zinc-800 bg-zinc-950/60 backdrop-blur-xl sticky top-0 z-50">
+  <div class="hidden md:flex items-center gap-8 text-sm text-zinc-300">
+    <a href="/" class="hover:text-white transition">Home</a>
+    <a href="/products" class="hover:text-white transition">Products</a>
+    <a href="/categories" class="hover:text-white transition">Categories</a>
+    <a href="/contact" class="hover:text-white transition">Contact</a>
+  </div>
 
-    <!-- Logo -->
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-bold text-lg shadow-lg shadow-blue-600/30">
-        H
-      </div>
-      <h1 class="text-xl font-bold tracking-tight">The Hardware Hub</h1>
-    </div>
+  <div class="flex items-center gap-4">
 
-    <!-- Links -->
-    <div class="hidden md:flex items-center gap-8 text-sm text-zinc-300">
-      <a href="/" class="hover:text-white transition">Home</a>
-      <a href="/products" class="hover:text-white transition">Products</a>
-      <a href="/categories" class="hover:text-white transition">Categories</a>
-      <a href="/contact" class="hover:text-white transition">Contact</a>
-    </div>
+    <!-- Cart -->
+    <a href="/cart"
+       class="relative flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition text-sm font-medium">
+      🛒 Cart
+      <% if(cartCount > 0){ %>
+        <span class="absolute -top-2 -right-2 bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">
+          <%= cartCount %>
+        </span>
+      <% } %>
+    </a>
 
-    <!-- Auth / Cart Section -->
-    <% if(!token){ %>
-
-      <div class="flex items-center gap-3">
-        <a href="/login" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition text-sm font-medium">
-          Login
-        </a>
-        <a href="/signup" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition text-sm font-semibold shadow-lg shadow-blue-600/30">
-          Sign Up
-        </a>
-      </div>
-
+    <!-- Profile -->
+    <% if(user){ %>
+      <a href="/profile"
+         class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold shadow-lg shadow-blue-600/30 hover:bg-blue-500 transition">
+        <%= user.name.charAt(0).toUpperCase() %>
+      </a>
     <% } else { %>
-
-      <div class="flex items-center gap-4">
-
-        <!-- Cart Button -->
-        <a href="/cart" 
-           class="relative px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition text-sm font-medium flex items-center gap-2">
-
-          🛒 Cart
-
-          <% if (user && user.cart && user.cart.length > 0) { %>
-            <span class="absolute -top-2 -right-2 bg-blue-600 text-xs px-2 py-0.5 rounded-full">
-              <%= user.cart.length %>
-            </span>
-          <% } %>
-
-        </a>
-
-        <!-- Logout -->
-        <a href="/logout" 
-           class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition text-sm font-medium">
-          Logout
-        </a>
-
-      </div>
-
+      <a href="/login"
+         class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition text-sm font-semibold">
+         Login
+      </a>
     <% } %>
 
-  </nav>
+  </div>
 
-  <!-- Hero Section -->
-  <section class="max-w-6xl mx-auto px-8 py-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+</nav>
 
-    <div>
-      <p class="text-sm text-blue-400 font-medium mb-3">
-        ⚡ Premium Hardware • Trusted Tools • Fast Delivery
-      </p>
 
-      <h2 class="text-5xl font-extrabold leading-tight tracking-tight">
-        Buy Tools That  
-        <span class="text-blue-500">Actually Last.</span>
-      </h2>
+<!-- Hero Section -->
+<section class="max-w-6xl mx-auto px-8 py-20 text-center">
+  <h2 class="text-7xl font-extrabold display leading-tight">
+    Buy Tools That<br>
+    <span class="text-blue-500">Actually Last.</span>
+  </h2>
+</section>
 
-      <p class="text-zinc-400 mt-5 text-lg leading-relaxed">
-        Drill machines, bolts, industrial kits, accessories and everything your workshop needs.
-        Built for real work — not cheap plastic.
-      </p>
 
-      <div class="mt-8 flex gap-4">
-        <a href="/products"
-          class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 transition font-semibold shadow-lg shadow-blue-600/30">
-          Browse Products 🔥
-        </a>
+<!-- Featured Products -->
+<section class="max-w-6xl mx-auto px-8 pb-16">
+  <div class="flex items-end justify-between mb-8">
+    <h2 class="text-4xl font-extrabold display">Featured Products</h2>
+  </div>
 
-        <a href="/admin/listproduct"
-          class="px-6 py-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition font-semibold">
-          List a Product ➕
-        </a>
-      </div>
-    </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-    <!-- Right Card -->
-    <div class="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-8 shadow-2xl">
-      <h3 class="text-xl font-bold">Top Categories 🧰</h3>
-      <p class="text-zinc-400 text-sm mt-2">
-        Explore by category to find tools faster.
-      </p>
-    </div>
+    <% featuredProducts.forEach(product => { %>
+      
+      <a href="/products/<%= product._id %>"
+         class="bg-zinc-900/60 border border-zinc-800 rounded-2xl overflow-hidden block hover:border-blue-500 transition">
 
-  </section>
+        <div class="h-48 bg-zinc-800/80 flex items-center justify-center overflow-hidden">
+          <img src="<%= product.image %>" 
+               class="h-full object-cover" />
+        </div>
 
-  <!-- Footer -->
-  <footer class="border-t border-zinc-800 bg-zinc-950/70 backdrop-blur-xl">
-    <div class="max-w-6xl mx-auto px-8 py-10 flex justify-between">
-      <p class="text-zinc-400 text-sm">
-        © 2026 The Hardware Hub. Built for builders 🔧
-      </p>
-    </div>
-  </footer>
+        <div class="p-5">
+          <span class="text-xs bg-blue-600/20 text-blue-400 px-2 py-0.5 rounded-full font-medium">
+            <%= product.category %>
+          </span>
+
+          <h4 class="font-bold text-lg display mt-2">
+            <%= product.name %>
+          </h4>
+
+          <p class="text-zinc-500 text-sm mt-1">
+            <%= product.description %>
+          </p>
+
+          <div class="flex items-center justify-between mt-4">
+            <p class="text-2xl font-extrabold display">
+              ₹<%= product.price %>
+            </p>
+
+            <form action="/cart/add/<%= product._id %>" method="POST">
+              <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-xl text-xs font-semibold transition">
+                Add to Cart 🛒
+              </button>
+            </form>
+          </div>
+        </div>
+      </a>
+
+    <% }) %>
+
+  </div>
+</section>
+
+
+<!-- Footer -->
+<footer class="border-t border-zinc-800 bg-zinc-950/70">
+  <div class="max-w-6xl mx-auto px-8 py-10 text-center">
+    <p class="text-zinc-500 text-sm">
+      © <%= new Date().getFullYear() %> The Hardware Hub. Built for builders 🔧
+    </p>
+  </div>
+</footer>
 
 </body>
 </html>
