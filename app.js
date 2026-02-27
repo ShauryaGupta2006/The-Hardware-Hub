@@ -24,6 +24,15 @@ app.use(cookieParser())
 
 
 
+const cloudinary = require("cloudinary").v2
+
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+})
+
 
 app.use("/user", userRouter)
 app.use("/admin", adminRouter)
@@ -118,11 +127,6 @@ app.get("/cart",async(req,res)=>{
     console.log(data)
     // res.render("cart",{user})
 })
-
-
-
-
-
 
 
 app.post("/removeitem/:productid",async(req,res)=>{
