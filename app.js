@@ -71,24 +71,32 @@ app.get("/signup",(req,res)=>{
 })
 
 app.post("/signup", async (req, res) => {
+    try {
+        let { name, username, email, password } = req.body;
 
-    let { name, username, email, password } = req.body;
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(password, salt);
 
-    bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash(req.body.password, salt, function (err, hash) {
-            let newuser = userdb.create({
-                name,
-                username,
-                email,
-                password: hash
-            })
-        })
-    })
-    let token = jwt.sign({ id: user._id,email: req.body.email }, "shhh")
-    res.cookie("token", token)
+        const user = await userdb.create({
+            name,
+            username,
+            email,
+            password: hash
+        });
 
-    res.redirect("/")
-})
+        const token = jwt.sign(
+            { id: user._id, email: user.email },
+            "shhh"
+        );
+
+        res.cookie("token", token);
+        res.redirect("/");
+
+    } catch (err) {
+        console.log(err);
+        res.send("Error creating user");
+    }
+});
 
 // Cart Route
 
