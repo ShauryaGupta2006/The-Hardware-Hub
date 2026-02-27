@@ -37,6 +37,19 @@
   <div class="flex items-center gap-4">
 
     <!-- Cart -->
+    <% if(user.role === "admin"){%>
+      <form action="/admin/listproduct/" method="get">
+        <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-xl text-xs font-semibold transition">
+        Add Products
+        </button>
+      </form>
+    <% } %>
+
+
+
+
+
+
     <a href="/cart"
        class="relative flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition text-sm font-medium">
       🛒 Cart
@@ -126,13 +139,9 @@
             <p class="text-2xl font-extrabold display">
               ₹<%= product.price %>
             </p>
-            <% if(user.role === "admin"){%>
-              <form action="/admin/" method="POST">
-                <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-xl text-xs font-semibold transition">
-                  Admin Panel
-                </button>
-              </form>
-            <% } %>
+            
+            
+
 
             <form action="/products/addtocart/<%= product._id %>" method="POST">
               <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-xl text-xs font-semibold transition">
