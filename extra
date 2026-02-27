@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+
+
+
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -9,7 +12,7 @@
 
 <body class="bg-zinc-950 text-white min-h-screen flex items-center justify-center">
 
-  <!-- Background Glow -->
+  Background Glow
   <div class="absolute inset-0">
     <div class="absolute top-20 left-20 w-72 h-72 bg-blue-600/30 blur-3xl rounded-full"></div>
     <div class="absolute bottom-20 right-20 w-72 h-72 bg-purple-600/30 blur-3xl rounded-full"></div>
@@ -25,7 +28,7 @@
     </p>
 
     <!-- Form -->
-    <form action="/signup" method="post" class="mt-8 space-y-5">
+    <!-- <form action="/signup" method="post" class="mt-8 space-y-5"> -->
 
       <!-- Name -->
       <div>
@@ -104,3 +107,45 @@
 </html>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>new User</title>
+    <script src = "https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    
+    <div class="main bg-zinc-900 min-h-screen w-full text-white">
+        <div class="form p-64">
+            <form action="/signup" method = "post">
+                <input name = "name" placeholder = "Name" class = "bg-zinc-700 rounded-md w-full h-7">
+                <input name="username" placeholder="Username" class = "bg-zinc-700 rounded-md w-full h-7 mt-4" > 
+                <input name = "email" placeholder = "Email" class = "bg-zinc-700 rounded-md w-full mt-4 h-7">
+                <input name = "password" placeholder = "Password" type = "password" class = "bg-zinc-700 rounded-md w-full mt-4 h-7">
+                <input type="submit" value="submit" class="bg-blue-600 text-white rounded-md mt-5 h-7 w-28">
+            </form>
+        </div>
+
+    </div>
+</body>
+</html> -->

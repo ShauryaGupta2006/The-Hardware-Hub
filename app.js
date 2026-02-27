@@ -79,6 +79,9 @@ app.get("/signup",(req,res)=>{
     res.render("signup")
 })
 
+
+
+
 app.post("/signup", async (req, res) => {
     try {
         let { name, username, email, password } = req.body;

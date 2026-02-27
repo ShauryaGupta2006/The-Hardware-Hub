@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Profile – The Hardware Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0f0f0f;
+      --surface:  #1a1a1a;
+      --surface2: #222222;
+      --border:   #2e2e2e;
+      --orange:   #f97316;
+      --orange2:  #ea580c;
+      --text:     #e8e8e8;
+      --muted:    #888;
+      --green:    #22c55e;
+      --red:      #ef4444;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── NAV (mirroring existing site) ── */
+    nav {
+      background: #111;
+      border-bottom: 2px solid var(--orange);
+      padding: 0 2rem;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      color: var(--orange);
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: .9rem; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--orange); color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem; display: grid; place-items: center;
+    }
+
+    /* ── PAGE LAYOUT ── */
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    /* ── PROFILE HERO ── */
+    .profile-hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--orange);
+      border-radius: 12px;
+      padding: 2rem 2.5rem;
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .profile-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at top left, rgba(249,115,22,.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .avatar-wrap { position: relative; }
+    .avatar-lg {
+      width: 100px; height: 100px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--orange), var(--orange2));
+      display: grid; place-items: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem; color: #fff;
+      border: 3px solid var(--border);
+      flex-shrink: 0;
+    }
+    .avatar-badge {
+      position: absolute; bottom: 4px; right: 4px;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--green);
+      border: 2px solid var(--surface);
+    }
+    .profile-info { flex: 1; min-width: 200px; }
+    .profile-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem; letter-spacing: 1px;
+      line-height: 1; margin-bottom: .4rem;
+    }
+    .profile-role {
+      display: inline-block;
+      background: rgba(249,115,22,.15);
+      color: var(--orange);
+      font-size: .75rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px;
+      padding: .2rem .7rem; border-radius: 4px;
+      margin-bottom: .8rem;
+    }
+    .profile-meta { display: flex; flex-wrap: wrap; gap: .6rem 1.5rem; }
+    .profile-meta span { font-size: .85rem; color: var(--muted); display: flex; align-items: center; gap: .35rem; }
+    .profile-meta span svg { color: var(--orange); }
+    .profile-actions { display: flex; gap: .75rem; align-items: flex-start; flex-wrap: wrap; }
+    .btn {
+      padding: .55rem 1.2rem; border-radius: 6px;
+      font-family: 'DM Sans', sans-serif; font-weight: 600;
+      font-size: .85rem; cursor: pointer;
+      text-decoration: none; display: inline-flex; align-items: center; gap: .4rem;
+      transition: all .2s;
+    }
+    .btn-primary { background: var(--orange); color: #fff; border: none; }
+    .btn-primary:hover { background: var(--orange2); }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ── STATS ROW ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      text-align: center;
+      transition: border-color .2s;
+    }
+    .stat-card:hover { border-color: var(--orange); }
+    .stat-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem; color: var(--orange);
+      line-height: 1;
+    }
+    .stat-label { font-size: .75rem; color: var(--muted); margin-top: .3rem; text-transform: uppercase; letter-spacing: .5px; }
+
+    /* ── TWO-COLUMN GRID ── */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 1rem 1.4rem;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem; letter-spacing: 1px; color: var(--text);
+    }
+    .card-body { padding: 1.4rem; }
+
+    /* ── INFO ROWS ── */
+    .info-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .65rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-label { font-size: .82rem; color: var(--muted); }
+    .info-value { font-size: .88rem; font-weight: 500; }
+
+    /* ── ORDER LIST ── */
+    .order-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: .8rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .order-item:last-child { border-bottom: none; }
+    .order-icon {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: var(--surface2);
+      display: grid; place-items: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .order-details { flex: 1; }
+    .order-name { font-size: .88rem; font-weight: 600; }
+    .order-date { font-size: .77rem; color: var(--muted); margin-top: 2px; }
+    .order-price { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--orange); }
+    .badge {
+      font-size: .7rem; font-weight: 600; padding: .18rem .55rem;
+      border-radius: 4px; text-transform: uppercase; letter-spacing: .5px;
+    }
+    .badge-green { background: rgba(34,197,94,.15); color: var(--green); }
+    .badge-orange { background: rgba(249,115,22,.15); color: var(--orange); }
+    .badge-red { background: rgba(239,68,68,.15); color: var(--red); }
+
+    /* ── ADDRESS CARD ── */
+    .address-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      position: relative;
+    }
+    .address-card .default-tag {
+      position: absolute; top: .7rem; right: .7rem;
+      font-size: .68rem; font-weight: 700; text-transform: uppercase;
+      color: var(--orange); letter-spacing: .5px;
+    }
+    .address-card p { font-size: .85rem; line-height: 1.7; color: var(--muted); }
+    .address-card strong { color: var(--text); }
+
+    /* ── WISHLIST ── */
+    .wish-item {
+      display: flex; align-items: center; gap: .9rem;
+      padding: .7rem 0; border-bottom: 1px solid var(--border);
+    }
+    .wish-item:last-child { border-bottom: none; }
+    .wish-img {
+      width: 40px; height: 40px; border-radius: 6px;
+      background: var(--surface2); display: grid; place-items: center; font-size: 1.2rem; flex-shrink: 0;
+    }
+    .wish-name { flex: 1; font-size: .87rem; font-weight: 500; }
+    .wish-price { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; color: var(--orange); margin-right: .5rem; }
+    .icon-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--muted); transition: color .2s; font-size: 1rem; padding: .2rem;
+    }
+    .icon-btn:hover { color: var(--orange); }
+
+    /* ── SECTION SPACING ── */
+    .section-gap { margin-top: 1.5rem; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 1.5rem;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">The Hardware Hub</a>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/products">Products</a>
+    <a href="/categories">Categories</a>
+    <a href="/contact">Contact</a>
+    <!-- Cart -->
+    <a href="/cart" style="position:relative">
+      🛒
+      <% if(cartCount > 0){ %>
+        <span style="position:absolute;top:-6px;right:-8px;background:var(--orange);color:#fff;font-size:.65rem;font-weight:700;border-radius:50%;width:16px;height:16px;display:grid;place-items:center"><%= cartCount %></span>
+      <% } %>
+    </a>
+    <div class="nav-avatar"><%= user.name.charAt(0).toUpperCase() %></div>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- ── PROFILE HERO ── -->
+  <div class="profile-hero">
+    <div class="avatar-wrap">
+      <div class="avatar-lg"><%= user.name.charAt(0).toUpperCase() %></div>
+      <div class="avatar-badge"></div>
+    </div>
+    <div class="profile-info">
+      <div class="profile-name"><%= user.name %></div>
+      <div class="profile-role"><%= user.role || 'Pro Builder' %></div>
+      <div class="profile-meta">
+        <span>
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <%= user.email %>
+        </span>
+        <span>
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.37 19 19.45 19.45 0 0 1 5 12.63a19.79 19.79 0 0 1-2.92-8.4A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91A16 16 0 0 0 14.09 15.9l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <%= user.phone || '+91 98765 43210' %>
+        </span>
+        <span>
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Member since <%= user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-IN',{month:'long',year:'numeric'}) : 'January 2023' %>
+        </span>
+      </div>
+    </div>
+    <div class="profile-actions">
+      <a href="/profile/edit" class="btn btn-primary">✏️ Edit Profile</a>
+      <a href="/logout" class="btn btn-outline">Logout</a>
+    </div>
+  </div>
+
+  <!-- ── STATS ── -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value"><%= user.totalOrders || 24 %></div>
+      <div class="stat-label">Total Orders</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">₹<%= user.totalSpent || '18.4K' %></div>
+      <div class="stat-label">Total Spent</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value"><%= user.wishlistCount || 7 %></div>
+      <div class="stat-label">Wishlist Items</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value"><%= user.reviewCount || 12 %></div>
+      <div class="stat-label">Reviews Given</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value"><%= user.loyaltyPoints || 860 %></div>
+      <div class="stat-label">Loyalty Points</div>
+    </div>
+  </div>
+
+  <!-- ── MAIN GRID ── -->
+  <div class="grid-2">
+
+    <!-- Personal Details -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">🪪 Personal Details</span>
+        <a href="/profile/edit" class="btn btn-outline" style="padding:.3rem .8rem;font-size:.78rem;">Edit</a>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="info-label">Full Name</span><span class="info-value"><%= user.name %></span></div>
+        <div class="info-row"><span class="info-label">Email</span><span class="info-value"><%= user.email %></span></div>
+        <div class="info-row"><span class="info-label">Phone</span><span class="info-value"><%= user.phone || '+91 98765 43210' %></span></div>
+        <div class="info-row"><span class="info-label">Gender</span><span class="info-value"><%= user.gender || 'Male' %></span></div>
+        <div class="info-row"><span class="info-label">Date of Birth</span><span class="info-value"><%= user.dob || '12 March 1990' %></span></div>
+        <div class="info-row"><span class="info-label">Account Type</span><span class="info-value"><span class="badge badge-orange"><%= user.plan || 'Pro' %></span></span></div>
+      </div>
+    </div>
+
+    <!-- Saved Address -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">📦 Saved Addresses</span>
+        <a href="/profile/address/add" class="btn btn-outline" style="padding:.3rem .8rem;font-size:.78rem;">+ Add</a>
+      </div>
+      <div class="card-body" style="display:flex;flex-direction:column;gap:.9rem;">
+        <div class="address-card">
+          <span class="default-tag">Default</span>
+          <p>
+            <strong><%= user.name %></strong><br>
+            <%= user.address?.line1 || '42, MG Road, Sector 5' %><br>
+            <%= user.address?.city || 'Gurugram' %>, <%= user.address?.state || 'Haryana' %> – <%= user.address?.pin || '122001' %><br>
+            📞 <%= user.phone || '+91 98765 43210' %>
+          </p>
+        </div>
+        <div class="address-card">
+          <p>
+            <strong>Office</strong><br>
+            B-14, Industrial Area Phase II<br>
+            Chandigarh, Punjab – 160002<br>
+            📞 +91 98100 00001
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RECENT ORDERS ── -->
+  <div class="card section-gap">
+    <div class="card-header">
+      <span class="card-title">🧾 Recent Orders</span>
+      <a href="/orders" class="btn btn-outline" style="padding:.3rem .8rem;font-size:.78rem;">View All</a>
+    </div>
+    <div class="card-body">
+      <!-- Loop through recent orders -->
+      <% const orders = user.recentOrders || [
+        { id: '#HH-4821', name: 'Bosch GSB 550 Drill Machine', date: '22 Feb 2026', price: '₹3,299', status: 'Delivered', icon: '🔩' },
+        { id: '#HH-4790', name: 'Stanley 20-Piece Toolkit', date: '14 Feb 2026', price: '₹1,850', status: 'Shipped', icon: '🔧' },
+        { id: '#HH-4745', name: 'Dewalt Safety Gloves (L)', date: '30 Jan 2026', price: '₹499', status: 'Delivered', icon: '🧤' },
+        { id: '#HH-4711', name: 'Black & Decker Jigsaw', date: '10 Jan 2026', price: '₹5,100', status: 'Cancelled', icon: '🪚' },
+      ]; %>
+      <% orders.forEach(order => { %>
+        <div class="order-item">
+          <div class="order-icon"><%= order.icon %></div>
+          <div class="order-details">
+            <div class="order-name"><%= order.name %> <span style="color:var(--muted);font-size:.78rem;font-weight:400"><%= order.id %></span></div>
+            <div class="order-date"><%= order.date %></div>
+          </div>
+          <div class="order-price"><%= order.price %></div>
+          <span class="badge <%= order.status==='Delivered'?'badge-green': order.status==='Shipped'?'badge-orange':'badge-red' %>">
+            <%= order.status %>
+          </span>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+
+  <!-- ── WISHLIST + SECURITY ── -->
+  <div class="grid-2 section-gap">
+
+    <!-- Wishlist Preview -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">❤️ Wishlist</span>
+        <a href="/wishlist" class="btn btn-outline" style="padding:.3rem .8rem;font-size:.78rem;">View All</a>
+      </div>
+      <div class="card-body">
+        <% const wishlist = user.wishlist || [
+          { name: 'Makita HR2470 Rotary Hammer', price: '₹8,200', icon: '🪛' },
+          { name: 'Ingco HKTS820 Tool Set', price: '₹2,450', icon: '🔨' },
+          { name: 'Stanley FatMax Tape 8m', price: '₹640', icon: '📏' },
+        ]; %>
+        <% wishlist.forEach(item => { %>
+          <div class="wish-item">
+            <div class="wish-img"><%= item.icon %></div>
+            <div class="wish-name"><%= item.name %></div>
+            <span class="wish-price"><%= item.price %></span>
+            <button class="icon-btn" title="Add to cart">🛒</button>
+            <button class="icon-btn" title="Remove">✕</button>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+
+    <!-- Security -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">🔒 Security</span>
+      </div>
+      <div class="card-body">
+        <div class="info-row">
+          <span class="info-label">Password</span>
+          <a href="/profile/change-password" class="btn btn-outline" style="padding:.3rem .8rem;font-size:.78rem;">Change</a>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Two-Factor Auth</span>
+          <span class="badge badge-orange">Disabled</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Last Login</span>
+          <span class="info-value" style="font-size:.82rem"><%= user.lastLogin || 'Today, 10:42 AM' %></span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Login Device</span>
+          <span class="info-value" style="font-size:.82rem">Chrome / Windows</span>
+        </div>
+        <div style="margin-top:1.2rem">
+          <a href="/profile/delete" class="btn" style="background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.3);font-size:.82rem;padding:.45rem 1rem;">
+            🗑️ Delete Account
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /grid-2 -->
+
+</div><!-- /page -->
+
+<footer>
+  © <%= new Date().getFullYear() %> The Hardware Hub. Built for builders 🔧
+</footer>
+
+</body>
+</html>
