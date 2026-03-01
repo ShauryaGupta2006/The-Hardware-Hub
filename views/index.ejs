@@ -6,24 +6,104 @@
   <title>The Hardware Hub</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
     body { font-family: 'Barlow', sans-serif; }
     h1, h2, h3, h4, .display { font-family: 'Barlow Condensed', sans-serif; }
+
+    /* Animated gradient hero background */
+    .hero-bg {
+      background: radial-gradient(ellipse at 20% 50%, rgba(37,99,235,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(37,99,235,0.08) 0%, transparent 50%),
+                  radial-gradient(ellipse at 60% 80%, rgba(99,102,241,0.06) 0%, transparent 50%);
+    }
+
+    /* Grid texture overlay */
+    .grid-texture {
+      background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* Scroll-fade animation */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.6s ease forwards; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+
+    /* Ticker tape */
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .ticker-track { animation: ticker 20s linear infinite; }
+
+    /* Shine hover on cards */
+    .shine-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .shine-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -75%;
+      width: 50%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.6s ease;
+    }
+    .shine-card:hover::after {
+      left: 150%;
+    }
+
+    /* Stat number pulse */
+    @keyframes countUp {
+      from { opacity: 0; transform: scale(0.8); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .stat-num { animation: countUp 0.5s ease forwards; }
+
+    /* Category card hover */
+    .cat-card { transition: transform 0.2s ease, border-color 0.2s ease; }
+    .cat-card:hover { transform: translateY(-4px); }
+
+    /* Glow dot */
+    .glow-dot {
+      width: 8px; height: 8px;
+      background: #3b82f6;
+      border-radius: 50%;
+      box-shadow: 0 0 8px 3px rgba(59,130,246,0.5);
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 8px 3px rgba(59,130,246,0.5); }
+      50%       { box-shadow: 0 0 16px 6px rgba(59,130,246,0.3); }
+    }
+
+    /* Horizontal rule with gradient */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(59,130,246,0.4), transparent);
+    }
   </style>
   <link rel="icon" type="image/png" href="/images/TheHardwareHub.png">
 </head>
 
 <body class="bg-zinc-950 text-white min-h-screen">
 
-<!-- Navbar -->
+<!-- ─── Navbar ─────────────────────────────────────────── -->
 <nav class="w-full px-8 py-5 flex items-center justify-between border-b border-zinc-800 bg-zinc-950/60 backdrop-blur-xl sticky top-0 z-50">
   
   <div class="flex items-center gap-3">
-    <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-bold text-lg shadow-lg shadow-blue-600/30">
-      H
-    </div>
+    <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-bold text-lg shadow-lg shadow-blue-600/30">H</div>
     <h1 class="text-xl font-bold tracking-tight display">The Hardware Hub</h1>
   </div>
 
@@ -35,133 +115,375 @@
   </div>
 
   <div class="flex items-center gap-4">
-
-    <!-- Cart -->
-    <% if(user.role === "admin"){%>
+    <% if(user.role === "admin"){ %>
       <form action="/admin/listproduct/" method="get">
-        <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-xl text-xs font-semibold transition">
-        Add Products
-        </button>
+        <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-xl text-xs font-semibold transition">Add Products</button>
       </form>
     <% } %>
 
-
-
-
-
-
-    <a href="/cart"
-       class="relative flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition text-sm font-medium">
+    <a href="/cart" class="relative flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition text-sm font-medium">
       🛒 Cart
       <% if(cartCount > 0){ %>
-        <span class="absolute -top-2 -right-2 bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">
-          <%= cartCount %>
-        </span>
+        <span class="absolute -top-2 -right-2 bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full"><%= cartCount %></span>
       <% } %>
     </a>
 
-    <!-- Profile -->
     <% if(user){ %>
-
       <% if(user.role ==="admin"){ %>
-        <a href="/admin/"
-          class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold shadow-lg shadow-blue-600/30 hover:bg-blue-500 transition">
+        <a href="/admin/" class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold shadow-lg shadow-blue-600/30 hover:bg-blue-500 transition">
           <%= user.name.charAt(0).toUpperCase() %>
         </a>
       <% } else{ %>
-
-        <a href="/user/profile"
-        class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold shadow-lg shadow-blue-600/30 hover:bg-blue-500 transition">
-        <%= user.name.charAt(0).toUpperCase() %>
-      </a>
-      
+        <a href="/user/profile" class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold shadow-lg shadow-blue-600/30 hover:bg-blue-500 transition">
+          <%= user.name.charAt(0).toUpperCase() %>
+        </a>
       <%}%>
-     
     <% } else { %>
-      <a href="/user/login"
-         class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition text-sm font-semibold">
-         Login
-      </a>
+      <a href="/user/login" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 transition text-sm font-semibold">Login</a>
     <% } %>
-
   </div>
-
 </nav>
 
 
-<!-- Hero Section -->
-<section class="max-w-6xl mx-auto px-8 py-20 text-center">
-  <h2 class="text-7xl font-extrabold display leading-tight">
+<!-- ─── Ticker Banner ──────────────────────────────────── -->
+<div class="w-full overflow-hidden bg-blue-600/10 border-b border-blue-600/20 py-2.5">
+  <div class="ticker-track flex gap-12 whitespace-nowrap text-xs font-semibold text-blue-400 uppercase tracking-widest" style="width:max-content">
+    <span>🔧 Free Shipping on orders over ₹999</span>
+    <span>⚡ New arrivals every week</span>
+    <span>🛠 Professional grade tools</span>
+    <span>✅ 1-year warranty on all products</span>
+    <span>🔩 Trusted by 10,000+ builders</span>
+    <span>🔧 Free Shipping on orders over ₹999</span>
+    <span>⚡ New arrivals every week</span>
+    <span>🛠 Professional grade tools</span>
+    <span>✅ 1-year warranty on all products</span>
+    <span>🔩 Trusted by 10,000+ builders</span>
+  </div>
+</div>
+
+
+<!-- ─── Hero ───────────────────────────────────────────── -->
+<section class="hero-bg grid-texture relative max-w-6xl mx-auto px-8 py-24 text-center overflow-hidden">
+
+  <!-- Decorative blobs -->
+  <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute bottom-0 right-1/4 w-64 h-64 bg-indigo-600/5 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- Live badge -->
+  <div class="fade-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-zinc-800/80 border border-zinc-700 text-xs text-zinc-300 mb-6 mx-auto">
+    <span class="glow-dot"></span>
+    In stock &amp; ready to ship
+  </div>
+
+  <h2 class="fade-up delay-1 text-7xl md:text-8xl font-extrabold display leading-tight">
     Buy Tools That<br>
     <span class="text-blue-500">Actually Last.</span>
   </h2>
+
+  <p class="fade-up delay-2 text-zinc-400 text-lg mt-5 max-w-xl mx-auto">
+    Professional-grade hardware for builders, makers, and tradespeople. Every tool tested, every product guaranteed.
+  </p>
+
+  <div class="fade-up delay-3 flex items-center justify-center gap-4 mt-8">
+    <a href="/products" class="px-8 py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-semibold transition shadow-lg shadow-blue-600/25">
+      Shop All Products
+    </a>
+    <a href="/categories" class="px-8 py-3 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-xl font-semibold transition">
+      Browse Categories
+    </a>
+  </div>
 </section>
 
 
-<!-- Featured Products -->
+<!-- ─── Stats Bar ─────────────────────────────────────── -->
+<section class="max-w-6xl mx-auto px-8 mb-16">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6 text-center">
+      <p class="text-4xl font-extrabold display text-blue-400 stat-num">10K+</p>
+      <p class="text-zinc-400 text-sm mt-1">Happy Customers</p>
+    </div>
+    <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6 text-center">
+      <p class="text-4xl font-extrabold display text-blue-400 stat-num">500+</p>
+      <p class="text-zinc-400 text-sm mt-1">Products Listed</p>
+    </div>
+    <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6 text-center">
+      <p class="text-4xl font-extrabold display text-blue-400 stat-num">1 YR</p>
+      <p class="text-zinc-400 text-sm mt-1">Warranty Included</p>
+    </div>
+    <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6 text-center">
+      <p class="text-4xl font-extrabold display text-blue-400 stat-num">24H</p>
+      <p class="text-zinc-400 text-sm mt-1">Fast Dispatch</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── Categories ────────────────────────────────────── -->
 <section class="max-w-6xl mx-auto px-8 pb-16">
   <div class="flex items-end justify-between mb-8">
-    <h2 class="text-4xl font-extrabold display">Featured Products</h2>
+    <div>
+      <p class="text-blue-500 text-sm font-semibold uppercase tracking-widest mb-1">Browse By</p>
+      <h2 class="text-4xl font-extrabold display">Categories</h2>
+    </div>
+    <a href="/categories" class="text-sm text-zinc-400 hover:text-white transition">View all →</a>
+  </div>
+
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+    <!-- These are static placeholder categories — swap icons/labels as needed -->
+    <a href="/categories/hand-tools" class="cat-card bg-zinc-900/60 border border-zinc-800 hover:border-blue-500 rounded-2xl p-5 flex flex-col items-center gap-3 text-center">
+      <span class="text-3xl">🔨</span>
+      <span class="text-sm font-semibold display">Hand Tools</span>
+    </a>
+    <a href="/categories/power-tools" class="cat-card bg-zinc-900/60 border border-zinc-800 hover:border-blue-500 rounded-2xl p-5 flex flex-col items-center gap-3 text-center">
+      <span class="text-3xl">⚡</span>
+      <span class="text-sm font-semibold display">Power Tools</span>
+    </a>
+    <a href="/categories/fasteners" class="cat-card bg-zinc-900/60 border border-zinc-800 hover:border-blue-500 rounded-2xl p-5 flex flex-col items-center gap-3 text-center">
+      <span class="text-3xl">🔩</span>
+      <span class="text-sm font-semibold display">Fasteners</span>
+    </a>
+    <a href="/categories/safety" class="cat-card bg-zinc-900/60 border border-zinc-800 hover:border-blue-500 rounded-2xl p-5 flex flex-col items-center gap-3 text-center">
+      <span class="text-3xl">🦺</span>
+      <span class="text-sm font-semibold display">Safety Gear</span>
+    </a>
+    <a href="/categories/measuring" class="cat-card bg-zinc-900/60 border border-zinc-800 hover:border-blue-500 rounded-2xl p-5 flex flex-col items-center gap-3 text-center">
+      <span class="text-3xl">📏</span>
+      <span class="text-sm font-semibold display">Measuring</span>
+    </a>
+    <a href="/categories/storage" class="cat-card bg-zinc-900/60 border border-zinc-800 hover:border-blue-500 rounded-2xl p-5 flex flex-col items-center gap-3 text-center">
+      <span class="text-3xl">🗄️</span>
+      <span class="text-sm font-semibold display">Storage</span>
+    </a>
+  </div>
+</section>
+
+
+<div class="max-w-6xl mx-auto px-8 mb-16"><div class="divider"></div></div>
+
+
+<!-- ─── Featured Products ──────────────────────────────── -->
+<section class="max-w-6xl mx-auto px-8 pb-16">
+  <div class="flex items-end justify-between mb-8">
+    <div>
+      <p class="text-blue-500 text-sm font-semibold uppercase tracking-widest mb-1">Hand-Picked</p>
+      <h2 class="text-4xl font-extrabold display">Featured Products</h2>
+    </div>
+    <a href="/products" class="text-sm text-zinc-400 hover:text-white transition">See all →</a>
   </div>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
     <% featuredProducts.forEach(product => { %>
-      
       <a href="/product/<%= product._id %>"
-         class="bg-zinc-900/60 border border-zinc-800 rounded-2xl overflow-hidden block hover:border-blue-500 transition">
+         class="shine-card bg-zinc-900/60 border border-zinc-800 rounded-2xl overflow-hidden block hover:border-blue-500 transition group">
 
-
-
-
-        <div class="h-48 bg-zinc-800/80 flex items-center justify-center overflow-hidden">
-          <img src="<%= product.image %> " 
-               class="h-full object-cover" />
+        <div class="h-52 bg-zinc-800/80 flex items-center justify-center overflow-hidden relative">
+          <img src="<%= product.image %>" class="h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+          <!-- Stock badge -->
+          <span class="absolute top-3 left-3 text-xs bg-green-600/20 text-green-400 border border-green-600/30 px-2 py-0.5 rounded-full font-medium">In Stock</span>
         </div>
-
-
-
 
         <div class="p-5">
           <span class="text-xs bg-blue-600/20 text-blue-400 px-2 py-0.5 rounded-full font-medium">
             <%= product.category %>
           </span>
 
-          <h4 class="font-bold text-lg display mt-2">
-            <%= product.name %>
-          </h4>
+          <h4 class="font-bold text-lg display mt-2"><%= product.name %></h4>
 
-          <p class="text-zinc-500 text-sm mt-1">
-            <%= product.description %>
-          </p>
+          <p class="text-zinc-500 text-sm mt-1 line-clamp-2"><%= product.description %></p>
+
+          <!-- Star rating (static decorative) -->
+          <div class="flex items-center gap-1 mt-2">
+            <span class="text-yellow-400 text-xs">★★★★★</span>
+            <span class="text-zinc-500 text-xs">(24 reviews)</span>
+          </div>
 
           <div class="flex items-center justify-between mt-4">
-            <p class="text-2xl font-extrabold display">
-              ₹<%= product.price %>
-            </p>
-            
-            
-
+            <div>
+              <p class="text-2xl font-extrabold display">₹<%= product.price %></p>
+              <p class="text-xs text-zinc-500">Incl. all taxes</p>
+            </div>
 
             <form action="/products/addtocart/<%= product._id %>" method="POST">
-              <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-xl text-xs font-semibold transition">
+              <button class="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-xl text-xs font-semibold transition shadow-md shadow-blue-600/20">
                 Add to Cart 🛒
               </button>
             </form>
           </div>
         </div>
       </a>
-
     <% }) %>
-
   </div>
 </section>
 
 
-<!-- Footer -->
+<!-- ─── Promo Banner ──────────────────────────────────── -->
+<section class="max-w-6xl mx-auto px-8 pb-16">
+  <div class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-8">
+    <!-- Background pattern -->
+    <div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, white 0, white 1px, transparent 0, transparent 50%); background-size: 20px 20px;"></div>
+
+    <div class="relative">
+      <p class="text-blue-200 text-sm font-semibold uppercase tracking-widest mb-2">Limited Time</p>
+      <h2 class="text-5xl font-extrabold display">Get 10% Off<br>Your First Order</h2>
+      <p class="text-blue-100 mt-3 text-base max-w-md">Use code <span class="font-bold bg-white/20 px-2 py-0.5 rounded-lg tracking-widest">FIRSTBUILD</span> at checkout. Valid on all products.</p>
+    </div>
+
+    <div class="relative flex-shrink-0">
+      <a href="/products" class="px-8 py-4 bg-white text-blue-700 font-bold rounded-xl text-base hover:bg-blue-50 transition shadow-xl">
+        Shop Now →
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── Why Choose Us ─────────────────────────────────── -->
+<section class="max-w-6xl mx-auto px-8 pb-16">
+  <div class="text-center mb-10">
+    <p class="text-blue-500 text-sm font-semibold uppercase tracking-widest mb-2">Why Us</p>
+    <h2 class="text-4xl font-extrabold display">Built for Builders</h2>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6">
+      <div class="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center text-2xl mb-4">🚚</div>
+      <h3 class="font-bold text-lg display mb-1">Fast Delivery</h3>
+      <p class="text-zinc-500 text-sm">Orders dispatched within 24 hours. Free shipping on orders above ₹999.</p>
+    </div>
+    <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6">
+      <div class="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center text-2xl mb-4">🛡️</div>
+      <h3 class="font-bold text-lg display mb-1">1-Year Warranty</h3>
+      <p class="text-zinc-500 text-sm">Every product comes with a 1-year manufacturer's warranty. No questions asked.</p>
+    </div>
+    <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6">
+      <div class="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center text-2xl mb-4">💳</div>
+      <h3 class="font-bold text-lg display mb-1">Secure Payments</h3>
+      <p class="text-zinc-500 text-sm">Encrypted checkout. Pay via UPI, cards, netbanking, or COD.</p>
+    </div>
+    <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6">
+      <div class="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center text-2xl mb-4">🔄</div>
+      <h3 class="font-bold text-lg display mb-1">Easy Returns</h3>
+      <p class="text-zinc-500 text-sm">Not satisfied? Return within 7 days for a full refund, hassle-free.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── Testimonials ───────────────────────────────────── -->
+<section class="max-w-6xl mx-auto px-8 pb-20">
+  <div class="text-center mb-10">
+    <p class="text-blue-500 text-sm font-semibold uppercase tracking-widest mb-2">Reviews</p>
+    <h2 class="text-4xl font-extrabold display">What Builders Say</h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6">
+      <div class="flex items-center gap-1 text-yellow-400 text-sm mb-3">★★★★★</div>
+      <p class="text-zinc-300 text-sm leading-relaxed">"Best quality tools I've bought online. The drill set arrived next day and it's been running non-stop on our renovation site."</p>
+      <div class="flex items-center gap-3 mt-5">
+        <div class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center font-bold text-sm">R</div>
+        <div>
+          <p class="font-semibold text-sm">Rahul M.</p>
+          <p class="text-zinc-500 text-xs">Site Contractor, Pune</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6">
+      <div class="flex items-center gap-1 text-yellow-400 text-sm mb-3">★★★★★</div>
+      <p class="text-zinc-300 text-sm leading-relaxed">"Ordered a set of hand tools for my workshop. Great packaging, genuine brands, and the price was way better than local stores."</p>
+      <div class="flex items-center gap-3 mt-5">
+        <div class="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center font-bold text-sm">P</div>
+        <div>
+          <p class="font-semibold text-sm">Priya S.</p>
+          <p class="text-zinc-500 text-xs">Furniture Maker, Bengaluru</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6">
+      <div class="flex items-center gap-1 text-yellow-400 text-sm mb-3">★★★★☆</div>
+      <p class="text-zinc-300 text-sm leading-relaxed">"Solid selection, fast shipping. The safety gear section is especially well stocked. Will be ordering again for the next project."</p>
+      <div class="flex items-center gap-3 mt-5">
+        <div class="w-9 h-9 rounded-full bg-zinc-600 flex items-center justify-center font-bold text-sm">A</div>
+        <div>
+          <p class="font-semibold text-sm">Aditya K.</p>
+          <p class="text-zinc-500 text-xs">Civil Engineer, Delhi</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── Newsletter ─────────────────────────────────────── -->
+<section class="max-w-6xl mx-auto px-8 pb-20">
+  <div class="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-10 text-center">
+    <p class="text-blue-500 text-sm font-semibold uppercase tracking-widest mb-2">Stay in the Loop</p>
+    <h2 class="text-3xl font-extrabold display mb-2">Get Deals Delivered</h2>
+    <p class="text-zinc-400 text-sm mb-6">Subscribe to get notified about new arrivals, flash sales, and exclusive discounts.</p>
+    <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+      <input type="email" placeholder="your@email.com"
+             class="flex-1 px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-blue-500 transition" />
+      <button type="submit"
+              class="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-xl text-sm font-semibold transition whitespace-nowrap">
+        Subscribe
+      </button>
+    </form>
+    <p class="text-zinc-600 text-xs mt-3">No spam, unsubscribe anytime.</p>
+  </div>
+</section>
+
+
+<!-- ─── Footer ────────────────────────────────────────── -->
 <footer class="border-t border-zinc-800 bg-zinc-950/70">
-  <div class="max-w-6xl mx-auto px-8 py-10 text-center">
-    <p class="text-zinc-500 text-sm">
+  <div class="max-w-6xl mx-auto px-8 py-12">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+
+      <!-- Brand -->
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-sm">H</div>
+          <span class="font-bold display text-lg">The Hardware Hub</span>
+        </div>
+        <p class="text-zinc-500 text-sm leading-relaxed">Professional-grade tools and hardware for every build.</p>
+      </div>
+
+      <!-- Shop -->
+      <div>
+        <h4 class="font-bold display text-base mb-3 text-zinc-300">Shop</h4>
+        <ul class="space-y-2 text-sm text-zinc-500">
+          <li><a href="/products" class="hover:text-white transition">All Products</a></li>
+          <li><a href="/categories" class="hover:text-white transition">Categories</a></li>
+          <li><a href="/products?filter=new" class="hover:text-white transition">New Arrivals</a></li>
+          <li><a href="/products?filter=sale" class="hover:text-white transition">On Sale</a></li>
+        </ul>
+      </div>
+
+      <!-- Support -->
+      <div>
+        <h4 class="font-bold display text-base mb-3 text-zinc-300">Support</h4>
+        <ul class="space-y-2 text-sm text-zinc-500">
+          <li><a href="/contact" class="hover:text-white transition">Contact Us</a></li>
+          <li><a href="/faq" class="hover:text-white transition">FAQ</a></li>
+          <li><a href="/returns" class="hover:text-white transition">Returns Policy</a></li>
+          <li><a href="/shipping" class="hover:text-white transition">Shipping Info</a></li>
+        </ul>
+      </div>
+
+      <!-- Account -->
+      <div>
+        <h4 class="font-bold display text-base mb-3 text-zinc-300">Account</h4>
+        <ul class="space-y-2 text-sm text-zinc-500">
+          <li><a href="/user/login" class="hover:text-white transition">Login</a></li>
+          <li><a href="/user/register" class="hover:text-white transition">Register</a></li>
+          <li><a href="/user/profile" class="hover:text-white transition">My Profile</a></li>
+          <li><a href="/cart" class="hover:text-white transition">My Cart</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="divider mb-6"></div>
+
+    <p class="text-zinc-500 text-sm text-center">
       © <%= new Date().getFullYear() %> The Hardware Hub. Built for builders 🔧
     </p>
   </div>
