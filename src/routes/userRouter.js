@@ -3,6 +3,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const User = require("../models/user-model");
 const cookieParser = require("cookie-parser");
+const dotenv = require('dotenv')
 
 router.use(cookieParser());
 

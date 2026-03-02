@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken")
-
 const userdb = require("../models/user-model")
+const dotenv = require('dotenv')
 
 async function isAdmin(req, res, next) {
 
@@ -8,7 +8,7 @@ async function isAdmin(req, res, next) {
     if (!token) return res.redirect("/login")
 
     else {
-        let data = jwt.verify(req.cookies.token, "shhh")
+        let data = jwt.verify(req.cookies.token, process.env.JWT_SECRET)
         req.user = data
 
         const user = await userdb.findOne({ email: data.email });
@@ -22,9 +22,6 @@ async function isAdmin(req, res, next) {
         }
 
     }
-
-
-
 
 }
 

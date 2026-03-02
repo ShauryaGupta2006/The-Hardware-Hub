@@ -50,7 +50,7 @@ app.get("/",async (req, res) => {
 
     else{
         try{
-        let data = jwt.verify(token,"shhh")
+        let data = jwt.verify(token,process.env.JWT_SECRET)
         const user = await userdb.findById(data.id)
         const featuredProducts = await productdb
             .find()
@@ -98,7 +98,7 @@ app.post("/signup", async (req, res) => {
 
         const token = jwt.sign(
             { id: user._id, email: user.email },
-            "shhh"
+            process.env.JWT_SECRET
         );
 
         res.cookie("token", token);
@@ -114,9 +114,11 @@ app.post("/signup", async (req, res) => {
 
 
 app.get("/cart",async(req,res)=>{
-    let data = jwt.verify(req.cookies.token,"shhh")
-    // req.user = data
-    const user = await userdb.findById(data.id).populate("cart")
+    let token = req.cookies.token
+
+    const decode = jwt.verify(token,process.env.JWT_SECRET)
+
+    const user = await userdb.findById(decode.id).populate("cart")
 
     if(!user){
         res.send("Sorry Their is no such user")
@@ -127,21 +129,12 @@ app.get("/cart",async(req,res)=>{
         res.render("cart",{user})
     }
 
-    console.log(data)
+    console.log("running")
     // res.render("cart",{user})
 })
 
 
-app.post("/removeitem/:productid",async(req,res)=>{
 
-    let token = req.cookies.token
-    let data1 = jwt.verify(token,"shhh")
-
-    const user = await userdb.findById(data1.id)
-
-    let data = await userdb.findByIdAndUpdate(user._id,{ $pull: { cart: req.params.productid } });
-    req.redirect('/cart')
-})
 
 
 
@@ -169,7 +162,7 @@ app.post("/login",async(req,res)=>{
             if(!result) return res.send("Wrong Passcode")
             if(result){
 
-                let token = jwt.sign({id: user._id,email: req.body.email},"shhh")
+                let token = jwt.sign({id: user._id,email: req.body.email},process.env.JWT_SECRET)
                 res.cookie("token",token)
                 res.redirect('/')
             }
@@ -190,4 +183,3 @@ app.get("/logout",(req,res)=>{
 app.listen(process.env.PORT, () => {
     console.log(`Server Initiated ${process.env.PORT}`)
 });
-

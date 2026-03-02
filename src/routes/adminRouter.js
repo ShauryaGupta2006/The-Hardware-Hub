@@ -5,6 +5,7 @@ const isAdmin = require("../middlewares/isAdmin.js")
 const upload = require("../middlewares/multer.js")
 const multer = require("multer")
 const productdb = require("../models/product-model")
+const dotenv = require('dotenv')
 
 const cloudinary = require("cloudinary").v2;
 const streamifier = require("streamifier");

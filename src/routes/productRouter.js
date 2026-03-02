@@ -6,6 +6,8 @@ const userid = require("../middlewares/userid")
 router.use(express.json())
 router.use(express.urlencoded({extended:true}))
 const jwt = require("jsonwebtoken")
+const dotenv = require('dotenv')
+const mongoose = require('mongoose')
 
 // router.get("/", async (req,res)=>{
 
@@ -22,6 +24,31 @@ router.get("/", async(req, res) => {
 })
 
 // {token:req.cookies.token}
+
+
+
+router.post("/remove/:productid", userid, async (req, res) => {
+    try {
+
+        const productId = req.params.productid
+
+        if (!mongoose.Types.ObjectId.isValid(productId)) {
+            return res.status(400).send("Invalid Product ID")
+        }
+
+        await userdb.findByIdAndUpdate(
+            req.user.id,
+            { $pull: { cart: productId } }
+        )
+
+        res.redirect("/cart")
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).send("Error removing item")
+    }
+})
+
 
 
 router.get("/:id",async (req,res)=>{
@@ -77,5 +104,17 @@ router.post("/addtocart/:id",userid,async(req,res)=>{
     }
 
 })
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = router;

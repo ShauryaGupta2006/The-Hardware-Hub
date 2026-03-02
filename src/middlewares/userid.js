@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken")
 const userdb = require("../models/user-model")
+const dotenv = require('dotenv')
 
 function userid(req, res, next) {
 
@@ -7,7 +8,7 @@ function userid(req, res, next) {
     if (!token) return res.redirect("/login")
 
     try {
-        let data = jwt.verify(req.cookies.token, "shhh")
+        let data = jwt.verify(req.cookies.token,process.env.JWT_SECRET)
         req.user = data
         next()
     } catch{

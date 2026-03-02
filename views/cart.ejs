@@ -26,10 +26,9 @@
                         <h2 class="text-xl font-semibold"><%= product.name %></h2>
                         <p class="text-zinc-400 mt-1">Price: ₹<%= product.price %></p>
                     </div>
-
                     <!-- Remove Button -->
 
-                    <form action="/removeitem/<%=product._id%>" method="post">
+                    <form action="products/remove/<%= product.id %>"" method="post">
                         <button type = "submit" class="bg-red-600 hover:bg-red-500 px-4 py-2 rounded-xl text-sm font-semibold transition">
                             Remove
                         </button>
