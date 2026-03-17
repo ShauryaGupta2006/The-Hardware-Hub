@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Orders | The Hardware Hub</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up { animation: fadeUp 0.5s ease forwards; }
+  </style>
+</head>
+
+<body class="bg-zinc-950 text-white min-h-screen">
+
+<!-- 🔹 Navbar -->
+<nav class="px-8 py-5 flex justify-between border-b border-zinc-800">
+  <h1 class="text-xl font-bold">Your Orders</h1>
+  <a href="/profile" class="text-sm text-zinc-400 hover:text-white">← Back</a>
+</nav>
+
+<!-- 🔹 Orders Section -->
+<section class="max-w-5xl mx-auto px-6 py-10 space-y-8">
+
+  <% 
+    const orders = [
+      {
+        id: "ORD874563",
+        date: "12 March 2026",
+        status: "Delivered",
+        total: 2599,
+        products: [
+          {
+            name: "Mechanical Keyboard",
+            price: 1999,
+            image: "https://via.placeholder.com/80"
+          },
+          {
+            name: "Gaming Mouse",
+            price: 600,
+            image: "https://via.placeholder.com/80"
+          }
+        ]
+      },
+      {
+        id: "ORD874564",
+        date: "15 March 2026",
+        status: "Shipped",
+        total: 1499,
+        products: [
+          {
+            name: "RGB Headphones",
+            price: 1499,
+            image: "https://via.placeholder.com/80"
+          }
+        ]
+      }
+    ];
+  %>
+
+  <% orders.forEach(order => { %>
+
+    <!-- 🔹 Order Card -->
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 fade-up">
+
+      <!-- Order Header -->
+      <div class="flex justify-between items-center mb-4">
+        <div>
+          <h2 class="text-lg font-semibold">Order #<%= order.id %></h2>
+          <p class="text-sm text-zinc-400">Placed on <%= order.date %></p>
+        </div>
+
+        <div class="text-right">
+          <p class="text-sm text-zinc-400">Status</p>
+          <span class="text-sm font-semibold 
+            <%= order.status === 'Delivered' ? 'text-green-400' : 'text-yellow-400' %>">
+            <%= order.status %>
+          </span>
+        </div>
+      </div>
+
+      <!-- Products -->
+      <div class="space-y-4">
+        <% order.products.forEach(product => { %>
+
+          <div class="flex items-center gap-4 border-t border-zinc-800 pt-4">
+
+            <img src="<%= product.image %>" 
+                 class="w-16 h-16 rounded-lg object-cover border border-zinc-700"/>
+
+            <div class="flex-1">
+              <h3 class="font-medium"><%= product.name %></h3>
+              <p class="text-sm text-zinc-400">₹<%= product.price %></p>
+            </div>
+
+            <button class="text-sm px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg">
+              Buy Again
+            </button>
+
+          </div>
+
+        <% }) %>
+      </div>
+
+      <!-- Footer -->
+      <div class="flex justify-between items-center mt-6 pt-4 border-t border-zinc-800">
+        <span class="text-sm text-zinc-400">Total</span>
+        <span class="font-semibold text-lg">₹<%= order.total %></span>
+      </div>
+
+    </div>
+
+  <% }) %>
+
+</section>
+
+</body>
+</html>

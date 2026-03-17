@@ -13,7 +13,8 @@ const adminRouter = require("./src/routes/adminRouter")
 const productRouter = require("./src/routes/productRouter")
 const userid = require("./src/middlewares/userid")
 
-dotenv.config({ path: '/Users/shaurya/Desktop/permits/projects/The-Hardware-hub-Project/.env' })
+
+dotenv.config({ path: '/Users/shaurya/Desktop/Base Directory/Projects/The-Hardware-hub-Project/.env' })
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -110,42 +111,35 @@ app.post("/signup", async (req, res) => {
     }
 });
 
-// Cart Route
 
+app.get("/cart", async (req, res) => {
+    try {
+        const token = req.cookies.token;
 
-app.get("/cart",async(req,res)=>{
-    let token = req.cookies.token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const decode = jwt.verify(token,process.env.JWT_SECRET)
+        const user = await userdb
+            .findById(decoded.id)
+            .populate("cart");
 
-    const user = await userdb.findById(decode.id).populate("cart")
+        if (!user) {
+            return res.send("No such user");
+        }
 
-    if(!user){
-        res.send("Sorry Their is no such user")
+        // ✅ send only cart products
+        res.render("cart", { products: user.cart });
+
+    } catch (err) {
+        console.log(err);
+        res.redirect("/login");
     }
-
-    else{
-
-        res.render("cart",{user})
-    }
-
-    console.log("running")
-    // res.render("cart",{user})
-})
-
-
-
-
-
-
-
-
-
-
+});
 
 app.get("/login",(req,res)=>{
     res.render('login')
 })
+
+
 
 
 app.post("/login",async(req,res)=>{
@@ -181,5 +175,5 @@ app.get("/logout",(req,res)=>{
 
 
 app.listen(process.env.PORT, () => {
-    console.log(`Server Initiated ${process.env.PORT}`)
+    console.log(`Server Initiated ${process.env.PORT    }`)
 });

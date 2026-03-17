@@ -110,6 +110,39 @@ router.post("/addtocart/:id",userid,async(req,res)=>{
 
 
 
+// router.post("/updateQuantity/:id", async (req, res) => {
+//     const productId = req.params.id;
+//     const action = req.body.action;
+
+//     const token = req.cookies.token;
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+//     const user = await userdb.findById(decoded.id);
+
+//     const item = user.cart.find(
+//         item => item.product.toString() === productId
+//     );
+
+//     if (!item) return res.redirect("/cart");
+
+//     if (action === "increase") {
+//         item.quantity += 1;
+//     } else if (action === "decrease") {
+//         item.quantity -= 1;
+
+//         if (item.quantity <= 0) {
+//             user.cart = user.cart.filter(
+//                 item => item.product.toString() !== productId
+//             );
+//         }
+//     }
+
+//     await user.save();
+
+//     res.redirect("/cart");
+// });
+
+
 
 
 

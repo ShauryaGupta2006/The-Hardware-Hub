@@ -1,62 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Cart</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Cart</title>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-zinc-950 text-white min-h-screen">
 
-    <!-- Page Wrapper -->
-    <div class="max-w-5xl mx-auto px-6 py-10">
+<div class="max-w-6xl mx-auto px-6 py-10">
 
-        <!-- Heading -->
-        <h1 class="text-3xl font-bold mb-8">🛒 Your Cart</h1>
+    <h1 class="text-3xl font-bold mb-10">🛒 Your Cart</h1>
 
-        <!-- Cart Items -->
-        <div class="space-y-6">
+    <!-- CART LIST -->
+    <div class="space-y-6">
 
-            <% user.cart.forEach(function(product){ %>
+        <% let totalItems = 0; %>
+        <% let subtotal = 0; %>
 
-                <div class="bg-zinc-900 rounded-2xl p-6 flex justify-between items-center shadow-lg hover:shadow-xl transition">
+        <% if(products.length === 0){ %>
 
-                    <!-- Product Info -->
-                    <div>
-                        <h2 class="text-xl font-semibold"><%= product.name %></h2>
-                        <p class="text-zinc-400 mt-1">Price: ₹<%= product.price %></p>
+            <!-- EMPTY CART -->
+            <div class="text-center py-20 text-zinc-400">
+                <h2 class="text-2xl font-semibold mb-3">Your cart is empty 😕</h2>
+                <a href="/products" class="text-blue-500 hover:underline">
+                    Browse Products →
+                </a>
+            </div>
+
+        <% } else { %>
+
+            <% products.forEach(product => { %>
+
+                <% 
+                    let qty = product.quantity || 1; // fallback if quantity missing
+                    totalItems += qty;
+                    let itemTotal = product.price * qty;
+                    subtotal += itemTotal;
+                %>
+
+                <!-- PRODUCT CARD -->
+                <div class="bg-zinc-900 p-6 rounded-2xl flex items-center justify-between shadow-lg">
+
+                    <div class="flex items-center gap-6">
+
+                        <img src="<%= product.image %>"
+                             class="w-24 h-24 rounded-xl object-cover">
+
+                        <div>
+                            <h2 class="text-xl font-semibold"><%= product.name %></h2>
+                            <p class="text-zinc-400 text-sm mt-1"><%= product.description %></p>
+
+                            <div class="flex items-center gap-6 mt-3">
+
+                                <span class="text-green-400 font-semibold">
+                                    ₹<%= product.price %>
+                                </span>
+
+                                <span class="text-zinc-300 text-sm">
+                                    Qty: <%= qty %>
+                                </span>
+
+                                <span class="text-blue-400 text-sm">
+                                    Subtotal: ₹<%= itemTotal %>
+                                </span>
+
+                            </div>
+                        </div>
                     </div>
-                    <!-- Remove Button -->
 
-                    <form action="products/remove/<%= product.id %>"" method="post">
-                        <button type = "submit" class="bg-red-600 hover:bg-red-500 px-4 py-2 rounded-xl text-sm font-semibold transition">
+                    <!-- REMOVE BUTTON -->
+                    <form action="/products/remove/<%= product._id %>" method="post">
+                        <button class="bg-red-600 hover:bg-red-500 px-5 py-2 rounded-xl text-sm font-semibold transition">
                             Remove
                         </button>
-
                     </form>
-                    
 
                 </div>
 
             <% }) %>
 
-        </div>
-
-        <!-- Cart Summary -->
-        <div class="mt-10 bg-zinc-900 rounded-2xl p-6 shadow-lg">
-
-            <div class="flex justify-between text-lg font-semibold">
-                <span>Total Items:</span>
-                <span><%= user.cart.length %></span>
-            </div>
-
-            <button class="mt-6 w-full bg-blue-600 hover:bg-blue-500 py-3 rounded-2xl font-bold text-lg transition shadow-lg shadow-blue-600/30">
-                Proceed to Checkout
-            </button>
-
-        </div>
+        <% } %>
 
     </div>
 
+    <!-- CART SUMMARY -->
+    <% if(products.length > 0){ %>
+
+    <%
+        let shipping = subtotal > 1000 ? 0 : 100;
+        let total = subtotal + shipping;
+    %>
+
+    <div class="mt-12 bg-zinc-900 p-8 rounded-2xl shadow-xl">
+
+        <h2 class="text-xl font-semibold mb-6">Order Summary</h2>
+
+        <div class="space-y-4">
+
+            <div class="flex justify-between text-zinc-300">
+                <span>Total Items</span>
+                <span><%= totalItems %></span>
+            </div>
+
+            <div class="flex justify-between text-zinc-300">
+                <span>Subtotal</span>
+                <span>₹<%= subtotal %></span>
+            </div>
+
+            <div class="flex justify-between text-zinc-300">
+                <span>Shipping</span>
+                <span>
+                    <% if(shipping === 0){ %>
+                        <span class="text-green-400">Free</span>
+                    <% } else { %>
+                        ₹<%= shipping %>
+                    <% } %>
+                </span>
+            </div>
+
+            <hr class="border-zinc-700">
+
+            <div class="flex justify-between text-xl font-bold">
+                <span>Total</span>
+                <span class="text-green-400">₹<%= total %></span>
+            </div>
+
+        </div>
+
+        <!-- CHECKOUT BUTTON -->
+        <form action="/user/checkout" method="get">
+            <button
+            class="mt-8 w-full bg-blue-600 hover:bg-blue-500 py-3 rounded-2xl font-bold text-lg transition shadow-lg shadow-blue-600/30">
+            Proceed to Checkout
+            </button>
+        </form>
+
+    </div>
+
+    <% } %>
+
+</div>
+
 </body>
 </html>
+
+
+
+
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Cart</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-zinc-950 text-white min-h-screen">
+
+<div class="max-w-6xl mx-auto px-6 py-10">
+
+    <h1 class="text-3xl font-bold mb-10">🛒 Your Cart</h1>
+
+    <!-- CART LIST -->
+    <div class="space-y-6">
+
+        <% let totalItems = 0; %>
+        <% let subtotal = 0; %>
+
+        <% if(products.length === 0){ %>
+
+            <!-- EMPTY CART -->
+            <div class="text-center py-20 text-zinc-400">
+                <h2 class="text-2xl font-semibold mb-3">Your cart is empty 😕</h2>
+                <a href="/products" class="text-blue-500 hover:underline">
+                    Browse Products →
+                </a>
+            </div>
+
+        <% } else { %>
+
+            <% products.forEach(item => { %>
+
+                <% 
+                    let product = item.product;   // populated product
+                    let qty = item.quantity || 1;
+
+                    totalItems += qty;
+                    let itemTotal = product.price * qty;
+                    subtotal += itemTotal;
+                %>
+
+                <!-- PRODUCT CARD -->
+                <div class="bg-zinc-900 p-6 rounded-2xl flex items-center justify-between shadow-lg">
+
+                    <div class="flex items-center gap-6">
+
+                        <img src="<%= product.image %>"
+                             class="w-24 h-24 rounded-xl object-cover">
+
+                        <div>
+                            <h2 class="text-xl font-semibold"><%= product.name %></h2>
+                            <p class="text-zinc-400 text-sm mt-1"><%= product.description %></p>
+
+                            <!-- PRICE + QUANTITY -->
+                            <div class="flex items-center gap-6 mt-3">
+
+                                <!-- Price -->
+                                <span class="text-green-400 font-semibold">
+                                    ₹<%= product.price %>
+                                </span>
+
+                                <!-- Quantity Controls -->
+                                <form action="/products/updateQuantity/<%= product._id %>" method="POST" class="flex items-center gap-2">
+
+                                    <button name="action" value="decrease"
+                                        class="px-3 py-1 bg-zinc-800 rounded-lg hover:bg-zinc-700">
+                                        -
+                                    </button>
+
+                                    <span class="text-sm px-3">
+                                        <%= qty %>
+                                    </span>
+
+                                    <button name="action" value="increase"
+                                        class="px-3 py-1 bg-zinc-800 rounded-lg hover:bg-zinc-700">
+                                        +
+                                    </button>
+
+                                </form>
+
+                                <!-- Subtotal -->
+                                <span class="text-blue-400 text-sm">
+                                    ₹<%= itemTotal %>
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- REMOVE BUTTON -->
+                    <form action="/products/remove/<%= product._id %>" method="post">
+                        <button class="bg-red-600 hover:bg-red-500 px-5 py-2 rounded-xl text-sm font-semibold transition">
+                            Remove
+                        </button>
+                    </form>
+
+                </div>
+
+            <% }) %>
+
+        <% } %>
+
+    </div>
+
+    <!-- CART SUMMARY -->
+    <% if(products.length > 0){ %>
+
+    <%
+        let shipping = subtotal > 1000 ? 0 : 100;
+        let total = subtotal + shipping;
+    %>
+
+    <div class="mt-12 bg-zinc-900 p-8 rounded-2xl shadow-xl">
+
+        <h2 class="text-xl font-semibold mb-6">Order Summary</h2>
+
+        <div class="space-y-4">
+
+            <div class="flex justify-between text-zinc-300">
+                <span>Total Items</span>
+                <span><%= totalItems %></span>
+            </div>
+
+            <div class="flex justify-between text-zinc-300">
+                <span>Subtotal</span>
+                <span>₹<%= subtotal %></span>
+            </div>
+
+            <div class="flex justify-between text-zinc-300">
+                <span>Shipping</span>
+                <span>
+                    <% if(shipping === 0){ %>
+                        <span class="text-green-400">Free</span>
+                    <% } else { %>
+                        ₹<%= shipping %>
+                    <% } %>
+                </span>
+            </div>
+
+            <hr class="border-zinc-700">
+
+            <div class="flex justify-between text-xl font-bold">
+                <span>Total</span>
+                <span class="text-green-400">₹<%= total %></span>
+            </div>
+
+        </div>
+
+        <!-- CHECKOUT -->
+        <form action="/user/checkout" method="get">
+            <button
+            class="mt-8 w-full bg-blue-600 hover:bg-blue-500 py-3 rounded-2xl font-bold text-lg transition shadow-lg shadow-blue-600/30">
+            Proceed to Checkout
+            </button>
+        </form>
+
+    </div>
+
+    <% } %>
+
+</div>
+
+</body>
+</html> -->
