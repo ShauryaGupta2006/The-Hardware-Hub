@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const userdb = require("./src/models/user-model")
-const dotenv = require('dotenv')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
@@ -14,7 +13,7 @@ const productRouter = require("./src/routes/productRouter")
 const userid = require("./src/middlewares/userid")
 
 
-dotenv.config({ path: '/Users/shaurya/Desktop/Base Directory/Projects/The-Hardware-hub-Project/.env' })
+require('dotenv').config();
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
