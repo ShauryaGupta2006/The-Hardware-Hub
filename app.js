@@ -44,7 +44,7 @@ app.get("/",async (req, res) => {
     let token = req.cookies.token
 
     if(!token){
-        res.redirect("/")
+        res.redirect("/login")
     }
 
 
